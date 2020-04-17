@@ -73,7 +73,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	for pos, e := range endpoints {
+	for _, e := range endpoints {
 		endpoint := fmt.Sprintf(e.Url, cep)
 		go func(cancel context.CancelFunc, endpoint string, chResult chan<- Result) {
 
@@ -97,31 +97,31 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
-				var wecep = models.WeCep
-				switch pos {
+				var wecep = models.WeCep{}
+				switch e.Source {
 				case "viacep":
-					var viacep = models.ViaCep
+					var viacep = models.ViaCep{}
 					err := json.Unmarshal(body, viacep)
 					if err == nil {
 						wecep.Cidade = viacep.Localidade
 						wecep.Uf = viacep.Uf
 						wecep.Logradouro = viacep.Logradouro
 						wecep.Bairro = viacep.Bairro
-						b, err := json.Marshal(webcep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							chResult <- Result{Body: b}
 							cancel()
 						}
 					}
 				case "postmon":
-					var postmon = models.Postmon
+					var postmon = models.PostMon{}
 					err := json.Unmarshal(body, postmon)
 					if err == nil {
 						wecep.Cidade = postmon.Cidade
 						wecep.Uf = postmon.Estado
 						wecep.Logradouro = postmon.Logradouro
 						wecep.Bairro = postmon.Bairro
-						b, err := json.Marshal(webcep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							chResult <- Result{Body: b}
 							cancel()
@@ -129,14 +129,14 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					}
 
 				case "republicavirtual":
-					var repub = models.RepublicaVirtual
+					var repub = models.RepublicaVirtual{}
 					err := json.Unmarshal(body, repub)
 					if err == nil {
 						wecep.Cidade = repub.Cidade
 						wecep.Uf = repub.Uf
 						wecep.Logradouro = repub.Logradouro
 						wecep.Bairro = repub.Bairro
-						b, err := json.Marshal(webcep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							chResult <- Result{Body: b}
 							cancel()
