@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/jeffotoni/gocep/models"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -20,7 +21,6 @@ type End struct {
 
 type Result struct {
 	Body []byte
-	sync.Mutex
 }
 
 var endpoints = []End{
@@ -29,20 +29,25 @@ var endpoints = []End{
 	{"republicavirtual", "https://republicavirtual.com.br/web_cep.php?cep=%s&formato=json"},
 }
 
-func main() {
-	//var mux sync.Mutex
-	mux := http.NewServeMux()
+var chResult = make(chan Result, len(endpoints))
 
-	// {cep:[0-9]{8}}
+var (
+	Port = ":8084"
+)
+
+func main() {
+
+	mux := http.NewServeMux()
 	mux.HandleFunc("/api/v1/", SearchCep)
 	mux.HandleFunc("/api/v1", NotFound)
 	mux.HandleFunc("/", NotFound)
 
 	server := &http.Server{
-		Addr:    ":8084",
+		Addr:    Port,
 		Handler: mux,
 	}
-	log.Println("Port:", 8084)
+
+	log.Println("Port:", Port)
 	log.Fatal(server.ListenAndServe())
 }
 
@@ -52,9 +57,14 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "not allowed", http.StatusMethodNotAllowed)
 		return
 	}
+	validEndpoint := strings.Split(r.URL.Path, "/")
+	if len(validEndpoint) > 4 {
+		w.WriteHeader(http.StatusFound)
+		return
+	}
 
 	cep := strings.Split(r.URL.Path[2:], "/")[2]
-	if err := isValidCEP(cep); err != nil {
+	if err := checkCep(cep); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -63,17 +73,15 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	var result Result
-	for _, e := range endpoints {
+	for pos, e := range endpoints {
 		endpoint := fmt.Sprintf(e.Url, cep)
-		go func(cancel context.CancelFunc, endpoint string, result *Result) {
+		go func(cancel context.CancelFunc, endpoint string, chResult chan<- Result) {
 
-			req, err := http.NewRequest("GET", endpoint, nil)
+			req, err := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
 			if err != nil {
 				return
 			}
 
-			req = req.WithContext(ctx)
 			response, err := http.DefaultClient.Do(req)
 			if err != nil {
 				log.Println("Error:", err)
@@ -89,31 +97,66 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
-				result.Lock()
-				result.Body = body
-				result.Unlock()
-				cancel()
-				println("Encontrei o CEP.. propagando cancel de goroutines...:")
-				println(endpoint)
-				return
+				var wecep = models.WeCep
+				switch pos {
+				case "viacep":
+					var viacep = models.ViaCep
+					err := json.Unmarshal(body, viacep)
+					if err == nil {
+						wecep.Cidade = viacep.Localidade
+						wecep.Uf = viacep.Uf
+						wecep.Logradouro = viacep.Logradouro
+						wecep.Bairro = viacep.Bairro
+						b, err := json.Marshal(webcep)
+						if err == nil {
+							chResult <- Result{Body: b}
+							cancel()
+						}
+					}
+				case "postmon":
+					var postmon = models.Postmon
+					err := json.Unmarshal(body, postmon)
+					if err == nil {
+						wecep.Cidade = postmon.Cidade
+						wecep.Uf = postmon.Estado
+						wecep.Logradouro = postmon.Logradouro
+						wecep.Bairro = postmon.Bairro
+						b, err := json.Marshal(webcep)
+						if err == nil {
+							chResult <- Result{Body: b}
+							cancel()
+						}
+					}
+
+				case "republicavirtual":
+					var repub = models.RepublicaVirtual
+					err := json.Unmarshal(body, repub)
+					if err == nil {
+						wecep.Cidade = repub.Cidade
+						wecep.Uf = repub.Uf
+						wecep.Logradouro = repub.Logradouro
+						wecep.Bairro = repub.Bairro
+						b, err := json.Marshal(webcep)
+						if err == nil {
+							chResult <- Result{Body: b}
+							cancel()
+						}
+					}
+				}
 			}
-		}(cancel, endpoint, &result)
+			return
+		}(cancel, endpoint, chResult)
 	}
 
-	//go func() {
 	select {
-	case <-ctx.Done():
-		fmt.Println("body:", string(result.Body))
-		fmt.Println("Gracefully exit")
-		fmt.Println(ctx.Err())
-
+	//case <-ctx.Done():
+	case result := <-chResult:
 		w.WriteHeader(http.StatusOK)
 		w.Write(result.Body)
 		return
 	case <-time.After(time.Duration(5) * time.Second):
 		cancel()
 	}
-	//}()
 
 	w.WriteHeader(http.StatusNoContent)
 	return
@@ -124,12 +167,12 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func isValidCEP(cep string) error {
+func checkCep(cep string) error {
 	re := regexp.MustCompile(`[^0-9]`)
 	formatedCEP := re.ReplaceAllString(cep, `$1`)
 
 	if len(formatedCEP) < 8 {
-		return errors.New("Cep deve conter apenas números e no minimo 8 digitos")
+		return errors.New(`{"msg":"error cep tem que ser valido"}`)
 	}
 
 	return nil
