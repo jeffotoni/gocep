@@ -84,7 +84,6 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 			response, err := http.DefaultClient.Do(req)
 			if err != nil {
-				log.Println("Error:", err)
 				return
 			}
 
