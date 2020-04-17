@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jeffotoni/gocep/models"
+	//"golang.org/x/sync/singleflight"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -69,6 +70,8 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//var requestGroup singleflight.Group
+
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -76,14 +79,16 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	for _, e := range endpoints {
 		endpoint := fmt.Sprintf(e.Url, cep)
 		go func(cancel context.CancelFunc, endpoint string, chResult chan<- Result) {
-
+			//res2, err2, shared2 := requestGroup.Do("singleflight", func() (interface{}, error) {
 			req, err := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
 			if err != nil {
+				//return []byte(``), err
 				return
 			}
 
 			response, err := http.DefaultClient.Do(req)
 			if err != nil {
+				//return []byte(``), err
 				return
 			}
 
@@ -91,13 +96,14 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 			body, err := ioutil.ReadAll(response.Body)
 			if err != nil {
 				log.Println("Error ioutil.ReadAll:", err)
+				//return []byte(``), err
 				return
 			}
 
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
 				var wecep = models.WeCep{}
-				println(e.Source)
+				//println(e.Source)
 				switch e.Source {
 				case "viacep":
 					var viacep = models.ViaCep{}
@@ -109,6 +115,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Bairro = viacep.Bairro
 						b, err := json.Marshal(wecep)
 						if err == nil {
+							//return b, err
 							chResult <- Result{Body: b}
 							cancel()
 						}
@@ -123,6 +130,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Bairro = postmon.Bairro
 						b, err := json.Marshal(wecep)
 						if err == nil {
+							//return b, err
 							chResult <- Result{Body: b}
 							cancel()
 						}
@@ -138,6 +146,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Bairro = repub.Bairro
 						b, err := json.Marshal(wecep)
 						if err == nil {
+							//								return b, err
 							chResult <- Result{Body: b}
 							cancel()
 						}
@@ -145,6 +154,19 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 			return
+			//return []byte(``), errors.New(`nao encontramos o resultado`)
+			//return string(responseData), err
+			//})
+
+			// if err2 != nil {
+			// 	http.Error(w, err2.Error(), http.StatusInternalServerError)
+			// 	return
+			// }
+
+			// result2 := res2.(string)
+			// fmt.Println("shared = ", shared2)
+			// fmt.Fprintf(w, "%q", result2)
+
 		}(cancel, endpoint, chResult)
 	}
 
