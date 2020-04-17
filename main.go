@@ -98,10 +98,11 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
 				var wecep = models.WeCep{}
+				println(e.Source)
 				switch e.Source {
 				case "viacep":
 					var viacep = models.ViaCep{}
-					err := json.Unmarshal(body, viacep)
+					err := json.Unmarshal(body, &viacep)
 					if err == nil {
 						wecep.Cidade = viacep.Localidade
 						wecep.Uf = viacep.Uf
@@ -115,7 +116,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					}
 				case "postmon":
 					var postmon = models.PostMon{}
-					err := json.Unmarshal(body, postmon)
+					err := json.Unmarshal(body, &postmon)
 					if err == nil {
 						wecep.Cidade = postmon.Cidade
 						wecep.Uf = postmon.Estado
@@ -130,7 +131,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 				case "republicavirtual":
 					var repub = models.RepublicaVirtual{}
-					err := json.Unmarshal(body, repub)
+					err := json.Unmarshal(body, &repub)
 					if err == nil {
 						wecep.Cidade = repub.Cidade
 						wecep.Uf = repub.Uf
