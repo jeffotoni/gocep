@@ -141,6 +141,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					}
 
 				case "republicavirtual":
+					println(string(body))
 					var repub = models.RepublicaVirtual{}
 					err := json.Unmarshal(body, &repub)
 					if err == nil {
