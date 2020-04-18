@@ -24,5 +24,5 @@ update:
 
 deploy.aws:
 	@echo "########## Compilando nossa API ... "
-	sh deploy-aws.sh
+	sh deploy.aws.sh
 	@echo "fim"
