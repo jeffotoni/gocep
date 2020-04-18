@@ -113,7 +113,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Uf = viacep.Uf
 						wecep.Logradouro = viacep.Logradouro
 						wecep.Bairro = viacep.Bairro
-						b, err := json.Marshal(wecep)
+						b, err := json.Marshal(&wecep)
 						if err == nil {
 							//return b, err
 							chResult <- Result{Body: b}
@@ -128,7 +128,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Uf = postmon.Estado
 						wecep.Logradouro = postmon.Logradouro
 						wecep.Bairro = postmon.Bairro
-						b, err := json.Marshal(wecep)
+						b, err := json.Marshal(&wecep)
 						if err == nil {
 							//return b, err
 							chResult <- Result{Body: b}
@@ -144,7 +144,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 						wecep.Uf = repub.Uf
 						wecep.Logradouro = repub.Logradouro
 						wecep.Bairro = repub.Bairro
-						b, err := json.Marshal(wecep)
+						b, err := json.Marshal(&wecep)
 						if err == nil {
 							//								return b, err
 							chResult <- Result{Body: b}
