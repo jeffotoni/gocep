@@ -1,3 +1,4 @@
 deploy.aws.sh
 docker-compose.yaml
+docker-compose.aws.yaml
 deploy.gocep.sh
