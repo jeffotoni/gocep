@@ -100,7 +100,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			var wecep = models.WeCep{}
+			var wecep = &models.WeCep{}
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
 				//println(e.Source)
@@ -109,11 +109,13 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					var viacep = models.ViaCep{}
 					err := json.Unmarshal(body, &viacep)
 					if err == nil {
+						wecep.Lock()
+						defer wecep.Unlock()
 						wecep.Cidade = viacep.Localidade
 						wecep.Uf = viacep.Uf
 						wecep.Logradouro = viacep.Logradouro
 						wecep.Bairro = viacep.Bairro
-						b, err := json.Marshal(&wecep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							//return b, err
 							chResult <- Result{Body: b}
@@ -124,11 +126,13 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					var postmon = models.PostMon{}
 					err := json.Unmarshal(body, &postmon)
 					if err == nil {
+						wecep.Lock()
+						defer wecep.Unlock()
 						wecep.Cidade = postmon.Cidade
 						wecep.Uf = postmon.Estado
 						wecep.Logradouro = postmon.Logradouro
 						wecep.Bairro = postmon.Bairro
-						b, err := json.Marshal(&wecep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							//return b, err
 							chResult <- Result{Body: b}
@@ -140,11 +144,13 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 					var repub = models.RepublicaVirtual{}
 					err := json.Unmarshal(body, &repub)
 					if err == nil {
+						wecep.Lock()
+						defer wecep.Unlock()
 						wecep.Cidade = repub.Cidade
 						wecep.Uf = repub.Uf
 						wecep.Logradouro = repub.Logradouro
 						wecep.Bairro = repub.Bairro
-						b, err := json.Marshal(&wecep)
+						b, err := json.Marshal(wecep)
 						if err == nil {
 							//								return b, err
 							chResult <- Result{Body: b}
