@@ -1,14 +1,11 @@
 package models
 
-import "sync"
-
 // Default
 type WeCep struct {
 	Cidade     string `json:"cidade"`
 	Uf         string `json:"uf"`
 	Logradouro string `json:"logradouro"`
 	Bairro     string `json:"bairro"`
-	sync.Mutex
 }
 
 //viacep
