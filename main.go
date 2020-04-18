@@ -78,7 +78,8 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 	for _, e := range endpoints {
 		endpoint := fmt.Sprintf(e.Url, cep)
-		go func(cancel context.CancelFunc, endpoint string, chResult chan<- Result) {
+		source := e.Source
+		go func(cancel context.CancelFunc, source, endpoint string, chResult chan<- Result) {
 			//res2, err2, shared2 := requestGroup.Do("singleflight", func() (interface{}, error) {
 			req, err := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
 			if err != nil {
@@ -103,8 +104,8 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 			var wecep = &models.WeCep{}
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
-				println(e.Source)
-				switch e.Source {
+				println(source)
+				switch source {
 				case "viacep":
 					var viacep = models.ViaCep{}
 					err := json.Unmarshal(body, &viacep)
@@ -174,7 +175,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 			// fmt.Println("shared = ", shared2)
 			// fmt.Fprintf(w, "%q", result2)
 
-		}(cancel, endpoint, chResult)
+		}(cancel, source, endpoint, chResult)
 	}
 
 	select {
