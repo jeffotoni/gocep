@@ -76,8 +76,6 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 
 	jsonCep := ristretto.Get(cep)
 	if len(jsonCep) > 0 {
-		println("pegando em cache")
-		println(jsonCep)
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(jsonCep))
 		return

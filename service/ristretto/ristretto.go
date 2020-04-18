@@ -50,7 +50,6 @@ func Get(key string) string {
 	cache := Run()
 	value, found := cache.Get(key)
 	if !found {
-		log.Println("Not found")
 		return ""
 	}
 	return value.(string)
