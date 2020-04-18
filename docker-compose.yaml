@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  gocep:
+    image: jeffotoni/gocep
+    container_name: gocep
+    hostname: gocep
+    domainname: gocep.local.com
+    environment:
+      - "TZ=America/Sao_Paulo"
+      - "API_ENV=prod"
+    networks:
+        guulawork:
+           aliases:
+              - gocep.local.com
+    ports:
+      - 8084:8084
+    restart: always
+
+networks:
+  guulawork:
+      driver: bridge

@@ -2,6 +2,7 @@ package ristretto
 
 import (
 	"github.com/dgraph-io/ristretto"
+	"github.com/jeffotoni/gocep/config"
 	"log"
 	"sync"
 	"time"
@@ -19,9 +20,9 @@ func Run() *ristretto.Cache {
 			return
 		}
 		cacheOnce, err = ristretto.NewCache(&ristretto.Config{
-			NumCounters: 1e7,     // Num keys to track frequency of (30M).
-			MaxCost:     1 << 30, // Maximum cost of cache (2GB).
-			BufferItems: 64,      // Number of keys per Get buffer.
+			NumCounters: config.NumCounters, // Num keys to track frequency of (30M).
+			MaxCost:     config.MaxCost,     // Maximum cost of cache (2GB).
+			BufferItems: config.BufferItems, // Number of keys per Get buffer.
 		})
 		if err != nil {
 			log.Println(err)

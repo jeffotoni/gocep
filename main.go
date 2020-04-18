@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/service/ristretto"
 	"io/ioutil"
@@ -15,30 +16,11 @@ import (
 	"time"
 )
 
-type End struct {
-	Source string
-	Url    string
-}
-
 type Result struct {
 	Body []byte
 }
 
-type count32 int32
-
-var endpoints = []End{
-	{"viacep", "https://viacep.com.br/ws/%s/json/"},
-	{"postmon", "https://api.postmon.com.br/v1/cep/%s"},
-	{"republicavirtual", "https://republicavirtual.com.br/web_cep.php?cep=%s&formato=json"},
-}
-
-var JsonDefault = `{"cidade":"","uf":"","logradouro":"","bairro":""}`
-
-var chResult = make(chan Result, len(endpoints))
-
-var (
-	Port = ":8084"
-)
+var chResult = make(chan Result, len(models.Endpoints))
 
 func main() {
 
@@ -48,11 +30,11 @@ func main() {
 	mux.HandleFunc("/", NotFound)
 
 	server := &http.Server{
-		Addr:    Port,
+		Addr:    config.Port,
 		Handler: mux,
 	}
 
-	log.Println("Port:", Port)
+	log.Println("Port:", config.Port)
 	log.Fatal(server.ListenAndServe())
 }
 
@@ -85,7 +67,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	for _, e := range endpoints {
+	for _, e := range models.Endpoints {
 		endpoint := fmt.Sprintf(e.Url, cep)
 		source := e.Source
 		go func(cancel context.CancelFunc, source, endpoint string, chResult chan<- Result) {
@@ -171,7 +153,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(JsonDefault))
+	w.Write([]byte(config.JsonDefault))
 	return
 }
 
