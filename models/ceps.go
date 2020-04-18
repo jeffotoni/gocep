@@ -8,7 +8,7 @@ type WeCep struct {
 	Uf         string `json:"uf"`
 	Logradouro string `json:"logradouro"`
 	Bairro     string `json:"bairro"`
-	sync.Sync
+	sync.Mutex
 }
 
 //viacep
