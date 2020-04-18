@@ -100,9 +100,9 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
+			var wecep = models.WeCep{}
 			if len(string(body)) > 0 &&
 				response.StatusCode == http.StatusOK {
-				var wecep = models.WeCep{}
 				//println(e.Source)
 				switch e.Source {
 				case "viacep":
