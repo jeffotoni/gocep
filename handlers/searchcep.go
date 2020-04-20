@@ -64,7 +64,7 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 			if source == "correio" {
 				NewRequestWithContextCorreio(ctx, cancel, cep, source, method, endpoint, payload, chResult)
 			} else {
-				//NewRequestWithContext(ctx, cancel, cep, source, method, endpoint, chResult)
+				NewRequestWithContext(ctx, cancel, cep, source, method, endpoint, chResult)
 			}
 
 		}(cancel, cep, method, source, endpoint, payload, chResult)
