@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/jeffotoni/gocep/Handler"
 	"github.com/jeffotoni/gocep/config"
+	"github.com/jeffotoni/gocep/handler"
 	"log"
 	"net/http"
 )
