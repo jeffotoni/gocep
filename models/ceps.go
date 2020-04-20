@@ -1,5 +1,9 @@
 package models
 
+import (
+	"encoding/xml"
+)
+
 // Default
 type WeCep struct {
 	Cidade     string `json:"cidade"`

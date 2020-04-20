@@ -8,14 +8,22 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/service/ristretto"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"regexp"
 	"strings"
 	"time"
 )
+
+type Result struct {
+	Body []byte
+}
+
+var chResult = make(chan Result, len(models.Endpoints))
 
 func SearchCep(w http.ResponseWriter, r *http.Request) {
 
@@ -47,13 +55,19 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	defer cancel()
 
 	for _, e := range models.Endpoints {
-		endpoint := fmt.Sprintf(e.Url, cep)
+		endpoint := e.Url
 		source := e.Source
-		go func(cancel context.CancelFunc, source, endpoint string, chResult chan<- Result) {
+		method := e.Method
+		payload := e.Body
+		go func(cancel context.CancelFunc, cep, method, source, endpoint, payload string, chResult chan<- Result) {
 
-			NewRequestWithContext(ctx, Method, endpoint, payload, chResult)
+			if source == "correio" {
+				NewRequestWithContextCorreio(ctx, cancel, cep, source, method, endpoint, payload, chResult)
+			} else {
+				//NewRequestWithContext(ctx, cancel, cep, source, method, endpoint, chResult)
+			}
 
-		}(cancel, source, endpoint, chResult)
+		}(cancel, cep, method, source, endpoint, payload, chResult)
 	}
 
 	select {
@@ -71,67 +85,73 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func NewRequestWithContext(context context.Context, Method, endpoint, payload string, chResult chan<- Result) {
-	var err error
-	var playloadBytes *bytes.Reader = nil
-	if len(payload) > 0 && strings.ToUpper(Method) == "POST" {
-		playloadBytes = bytes.NewReader(payload)
-	}
+func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint, payload string, chResult chan<- Result) {
 
-	req, err := http.NewRequestWithContext(ctx, Method, endpoint, playloadBytes)
+	var err error
+	payload = fmt.Sprintf(payload, cep)
+	req, err := http.NewRequestWithContext(ctx, method, endpoint, bytes.NewReader([]byte(payload)))
 	if err != nil {
 		return
 	}
 
-	var response *http.Response
-	var body []byte
-
-	if strings.ToUpper(Method) == "POST" {
-		req.Header.Set("Content-type", "text/xml; charset=utf-8")
-
-		client := &http.Client{
-			Transport: &http.Transport{
-				TLSClientConfig: &tls.Config{
-					InsecureSkipVerify: true,
-				},
+	req.Header.Set("Content-type", "text/xml; charset=utf-8")
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
 			},
+		},
+	}
+	response, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer response.Body.Close()
+
+	var wecep = &models.WeCep{}
+	correio := new(models.Correio)
+	err = xml.NewDecoder(response.Body).Decode(correio)
+	if err == nil {
+		c := correio.Body.ConsultaCEPResponse.Return
+		wecep.Cidade = c.Cidade
+		wecep.Uf = c.Uf
+		wecep.Logradouro = c.End
+		wecep.Bairro = c.Bairro
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
 		}
-		response, err = client.Do(req)
-	} else {
-		response, err = http.DefaultClient.Do(req)
-		body, err = ioutil.ReadAll(response.Body)
-		if err != nil {
-			log.Println("Error ioutil.ReadAll:", err)
-			return
-		}
+	}
+
+	return
+}
+
+func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint string, chResult chan<- Result) {
+
+	endpoint = fmt.Sprintf(endpoint, cep)
+	req, err := http.NewRequestWithContext(ctx, method, endpoint, nil)
+	if err != nil {
+		return
+	}
+
+	response, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Println("Error ioutil.ReadAll:", err)
+		return
 	}
 
 	defer response.Body.Close()
 
-	if err != nil {
-		return
-	}
-
-	var wecep = &models.WeCep{}
 	if len(string(body)) > 0 &&
 		response.StatusCode == http.StatusOK {
+		var wecep = &models.WeCep{}
 		switch source {
-		case "correio":
-			var correio = models.Correio{}
-			result := new(Correio)
-			err = xml.NewDecoder(response.Body).Decode(result)
-			if err == nil {
-				c := result.Body.ConsultaCEPResponse.Return
-				correio.Cidade = c.Localidade
-				correio.Uf = c.Uf
-				correio.Logradouro = c.End
-				correio.Bairro = c.Bairro
-				b, err := json.Marshal(wecep)
-				if err == nil {
-					chResult <- Result{Body: b}
-					cancel()
-				}
-			}
 		case "viacep":
 			var viacep = models.ViaCep{}
 			err := json.Unmarshal(body, &viacep)
