@@ -31,7 +31,9 @@ Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-
 
 Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8084 será aberta para consumir o endpoint /api/v1/{cep}
 
-## Start gocep linux bash
+# Start
+
+## linux bash
 ```bash
 
 $ go build -ldflags="-s -w" 
@@ -40,14 +42,14 @@ $ 2020/04/21 12:56:46 Port: :8084
 
 ```
 
-## Start gocep Docker e docker-compose
+## docker e docker-compose
 ```bash
 
 $ sh deploy.gocep.sh
 
 ```
 
-## Listando nosso serviço em docker-compose
+## Listando service
 ```bash
 $ docker-compose ps
 Creating gocep ... done
