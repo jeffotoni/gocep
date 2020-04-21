@@ -43,6 +43,9 @@ $ 2020/04/21 12:56:46 Port: :8084
 ```
 
 ## docker e docker-compose
+
+Deixei um script para facilitar a criação de sua imagem, todos os arquivos estão na raiz, docker-compose.yaml, Dockerfile tudo que precisa para personalizar ainda mais se precisar.
+Ao rodar o script ele irá fazer pull da imagem que encontra-se no hub.docker.
 ```bash
 
 $ sh deploy.gocep.sh
