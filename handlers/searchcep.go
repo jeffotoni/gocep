@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"github.com/jeffotoni/gocep/config"
-	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/pkg/searchcep"
 	"github.com/jeffotoni/gocep/pkg/util"
 	"net/http"

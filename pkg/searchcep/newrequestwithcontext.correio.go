@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"net/http"
 )
