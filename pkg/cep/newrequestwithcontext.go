@@ -45,7 +45,7 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 				wecep.Bairro = viacep.Bairro
 				b, err := json.Marshal(wecep)
 				if err == nil {
-					chResult <- Result{Body: b}
+					chResult <- Result{Body: b, WeCep: wecep}
 					cancel()
 				}
 			}
@@ -59,7 +59,7 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 				wecep.Bairro = postmon.Bairro
 				b, err := json.Marshal(wecep)
 				if err == nil {
-					chResult <- Result{Body: b}
+					chResult <- Result{Body: b, WeCep: wecep}
 					cancel()
 				}
 			}
@@ -74,7 +74,7 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 				wecep.Bairro = repub.Bairro
 				b, err := json.Marshal(wecep)
 				if err == nil {
-					chResult <- Result{Body: b}
+					chResult <- Result{Body: b, WeCep: wecep}
 					cancel()
 				}
 			}

@@ -10,12 +10,13 @@ import (
 )
 
 type Result struct {
-	Body []byte
+	Body  []byte
+	WeCep models.WeCep
 }
 
 var chResult = make(chan Result, len(models.Endpoints))
 
-func Get(cep string) (int, []byte) {
+func Search(cep string) (*models.WeCep, error) {
 
 	jsonCep := ristretto.Get(cep)
 	if len(jsonCep) > 0 {
@@ -45,11 +46,12 @@ func Get(cep string) (int, []byte) {
 	select {
 	case result := <-chResult:
 		ristretto.Set(cep, string(result.Body))
-		return http.StatusOK, result.Body
+		return result.WeCep, nil
 
 	case <-time.After(time.Duration(4) * time.Second):
 		cancel()
 	}
 
-	return http.StatusOK, []byte(config.JsonDefault)
+	var wecep = &models.WeCep{}
+	return wecep, nil
 }

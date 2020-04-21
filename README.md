@@ -6,6 +6,8 @@ Podendo implementar para ter uma saída ainda mais completa conforme sua necessi
 
 O server é extremamente rápido, e usa cache em memória ele está configurado para 2G de Ram, caso queira alterar está tudo bonitinho no /config.
 
+Gocep também poderá ser usado como Lib, ou seja você irá conseguir fazer um import em seu pkg/searchcep  e fazer a chamada direto do seu método em seu código.
+
 Temos uma estrutura padrão de retorno do JSON.
 ## Struct Go
 ```go

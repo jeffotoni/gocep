@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/jeffotoni/gocep/pkg/searchcep"
+	"github.com/jeffotoni/gocep/pkg/cep"
 	"github.com/jeffotoni/gocep/pkg/util"
 	"net/http"
 	"strings"
@@ -26,7 +26,12 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code, body := searchcep.Get(cep)
+	result, err := cep.Search(cep)
+	if err != nil {
+		w.WriteHeader(code)
+		w.Write(body)
+		return
+	}
 	w.WriteHeader(code)
 	w.Write(body)
 	return
