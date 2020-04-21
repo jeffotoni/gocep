@@ -22,6 +22,11 @@ update:
 	@echo "\033[0;33m################ Enviando para o server #####################\033[0m"
 	@echo "fim"
 
+deploy.docker:
+	@echo "########## Compilando nossa API ... "
+	sh deploy.docker.hub.sh
+	@echo "fim"
+
 deploy.aws:
 	@echo "########## Compilando nossa API ... "
 	sh deploy.aws.sh
