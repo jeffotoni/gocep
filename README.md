@@ -27,6 +27,35 @@ func main() {
 
 ```
 
+Ou se preferir for criar seu próprio serviço e sua api basta fazer como exemplo abaixo
+
+```bash
+
+func main() {
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/cep/", func(w http.ResponseWriter, r *http.Request){
+		cepstr := strings.Split(r.URL.Path[1:], "/")[1]
+		if len(cepstr) != 8 {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		result, err := cep.Search(cepstr)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(result))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(result))
+	})
+	log.Fatal(http.ListenAndServe(":8080"))
+}
+
+```
+
 Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. O server irá funcionar na porta 8084, mas caso queira alterar basta ir na pasta /config.
 
 Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8084 será aberta para consumir o endpoint /api/v1/{cep}
