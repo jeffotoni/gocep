@@ -27,7 +27,8 @@ func main() {
 
 ```
 
-Ou se preferir for criar seu próprio serviço e sua api basta fazer como exemplo abaixo
+Ou se preferir for criar seu próprio serviço e sua api basta fazer como exemplo abaixo:
+Existe em examples dois exemplos de commo integrar a lib gocep em seu projeto.
 
 ```bash
 
@@ -51,6 +52,7 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(result))
 	})
+
 	log.Fatal(http.ListenAndServe(":8080"))
 }
 
