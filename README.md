@@ -53,15 +53,9 @@ Name    Command   State           Ports
 gocep   /gocep    Up      0.0.0.0:8084->8084/tcp
 -e Generated Run docker-compose [ok] 
 
-```
-
 $ docker-compose logs -f gocep
-
-Creating gocep ... done
-Name    Command   State           Ports         
-------------------------------------------------
-gocep   /gocep    Up      0.0.0.0:8084->8084/tcp
--e Generated Run docker-compose [ok] 
+Attaching to gocep
+gocep    | 2020/04/21 12:58:13 Port: :8084
 
 ```
 
