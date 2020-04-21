@@ -45,17 +45,16 @@ $ 2020/04/21 12:56:46 Port: :8084
 
 $ sh deploy.gocep.sh
 
-$ docker-compose ps
+```
 
+## Listando nosso serviço em docker-compose
+```bash
+$ docker-compose ps
 Creating gocep ... done
 Name    Command   State           Ports         
 ------------------------------------------------
 gocep   /gocep    Up      0.0.0.0:8084->8084/tcp
 -e Generated Run docker-compose [ok] 
-
-$ docker-compose logs -f gocep
-Attaching to gocep
-gocep    | 2020/04/21 12:58:13 Port: :8084
 
 ```
 
