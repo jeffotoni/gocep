@@ -62,7 +62,9 @@ Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-
 
 Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8084 será aberta para consumir o endpoint /api/v1/{cep}
 
-# Start
+# Baixando o Gocep e instalando
+
+Caso queira utilizar ele como serviço, basta baixa-lo ou usar o docker para utilizado.
 
 ## linux bash
 ```bash
