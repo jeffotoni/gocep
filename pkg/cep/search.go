@@ -1,26 +1,25 @@
-package searchcep
+package cep
 
 import (
 	"context"
 	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/service/ristretto"
-	"net/http"
 	"time"
 )
 
 type Result struct {
-	Body  []byte
-	WeCep models.WeCep
+	Body []byte
+	//WeCep *models.WeCep
 }
 
 var chResult = make(chan Result, len(models.Endpoints))
 
-func Search(cep string) (*models.WeCep, error) {
+func Search(cep string) (string, error) {
 
 	jsonCep := ristretto.Get(cep)
 	if len(jsonCep) > 0 {
-		return http.StatusOK, []byte(jsonCep)
+		return jsonCep, nil
 	}
 
 	ctx := context.Background()
@@ -46,12 +45,11 @@ func Search(cep string) (*models.WeCep, error) {
 	select {
 	case result := <-chResult:
 		ristretto.Set(cep, string(result.Body))
-		return result.WeCep, nil
+		return string(result.Body), nil
 
 	case <-time.After(time.Duration(4) * time.Second):
 		cancel()
 	}
 
-	var wecep = &models.WeCep{}
-	return wecep, nil
+	return config.JsonDefault, nil
 }

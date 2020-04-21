@@ -20,19 +20,19 @@ func SearchCep(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cep := strings.Split(r.URL.Path[2:], "/")[2]
-	if err := util.CheckCep(cep); err != nil {
+	cepstr := strings.Split(r.URL.Path[2:], "/")[2]
+	if err := util.CheckCep(cepstr); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	result, err := cep.Search(cep)
+	result, err := cep.Search(cepstr)
 	if err != nil {
-		w.WriteHeader(code)
-		w.Write(body)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(result))
 		return
 	}
-	w.WriteHeader(code)
-	w.Write(body)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(result))
 	return
 }
