@@ -5,6 +5,7 @@ import (
 	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/service/ristretto"
+	"runtime"
 	"time"
 )
 
@@ -21,6 +22,8 @@ func Search(cep string) (string, error) {
 	if len(jsonCep) > 0 {
 		return jsonCep, nil
 	}
+
+	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
