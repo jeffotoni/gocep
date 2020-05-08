@@ -47,7 +47,7 @@ func Search(cep string) (string, error) {
 
 	select {
 	case result := <-chResult:
-		ristretto.Set(cep, string(result.Body))
+		ristretto.SetTTL(cep, string(result.Body), time.Duration(time.Hour*72))
 		return string(result.Body), nil
 
 	case <-time.After(time.Duration(4) * time.Second):
