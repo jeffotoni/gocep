@@ -35,6 +35,20 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		response.StatusCode == http.StatusOK {
 		var wecep = &models.WeCep{}
 		switch source {
+		case "githubjeffotoni":
+			var githubjeff = models.GithubJeffotoni{}
+			err := json.Unmarshal(body, &githubjeff)
+			if err == nil {
+				wecep.Cidade = githubjeff.Cidade
+				wecep.Uf = githubjeff.Uf
+				wecep.Logradouro = githubjeff.Logradouro
+				wecep.Bairro = githubjeff.Bairro
+				b, err := json.Marshal(wecep)
+				if err == nil {
+					chResult <- Result{Body: b}
+					cancel()
+				}
+			}
 		case "viacep":
 			var viacep = models.ViaCep{}
 			err := json.Unmarshal(body, &viacep)

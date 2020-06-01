@@ -12,6 +12,16 @@ type WeCep struct {
 	Bairro     string `json:"bairro"`
 }
 
+type GithubJeffotoni struct {
+	Cep        string `json:"cep"`
+	Logradouro string `json:"logradouro"`
+	Bairro     string `json:"bairro"`
+	Uf         string `json:"uf"`
+	Estado     string `json:"estado"`
+	Cidade     string `json:"cidade"`
+	Ibge       int    `json:"ibge"`
+}
+
 //viacep
 type ViaCep struct {
 	Cep         string `json:"cep"`
