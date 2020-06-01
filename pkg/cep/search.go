@@ -50,7 +50,7 @@ func Search(cep string) (string, error) {
 		ristretto.SetTTL(cep, string(result.Body), time.Duration(time.Hour*72))
 		return string(result.Body), nil
 
-	case <-time.After(time.Duration(4) * time.Second):
+	case <-time.After(time.Duration(6) * time.Second):
 		cancel()
 	}
 
