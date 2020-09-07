@@ -1,14 +1,12 @@
 # gocep
 
-Um simples pacote para buscar ceps em bases publicas na internet utilizando concorência.
-
+Um simples pacote para buscar ceps em bases públicas na internet utilizando concorrência.
 Atualizamos para buscar não somente de bases públicas como também busca do correios que é chamadas SOAPs e busca também de uma base que encontra-se no github.com em raw.
 
 Podendo implementar para ter uma saída ainda mais completa conforme sua necessidade, então fique a vontade em alterar conforme seu cenário.
-
 O server é extremamente rápido, e usa cache em memória ele está configurado para 2G de Ram, caso queira alterar está tudo bonitinho no /config.
 
-Gocep também poderá ser usado como Lib, ou seja você irá conseguir fazer um import em seu pkg/searchcep  e fazer a chamada direto do seu método em seu código.
+Gocep também poderá ser usado como Lib, ou seja você irá conseguir fazer um import em seu pkg/searchcep e fazer a chamada direto do seu método em seu código.
 
 ## Usar como Lib
 ```go

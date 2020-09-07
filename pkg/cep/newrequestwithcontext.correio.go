@@ -7,12 +7,12 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/jeffotoni/gocep/models"
 	"net/http"
+
+	"github.com/jeffotoni/gocep/models"
 )
 
 func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint, payload string, chResult chan<- Result) {
-
 	var err error
 	payload = fmt.Sprintf(payload, cep)
 	req, err := http.NewRequestWithContext(ctx, method, endpoint, bytes.NewReader([]byte(payload)))
@@ -50,6 +50,5 @@ func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc
 			cancel()
 		}
 	}
-
 	return
 }

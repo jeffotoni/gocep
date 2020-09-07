@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/jeffotoni/gocep/models"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/jeffotoni/gocep/models"
 )
 
 func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint string, chResult chan<- Result) {
-
 	endpoint = fmt.Sprintf(endpoint, cep)
 	req, err := http.NewRequestWithContext(ctx, method, endpoint, nil)
 	if err != nil {

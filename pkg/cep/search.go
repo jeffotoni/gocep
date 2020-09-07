@@ -2,11 +2,12 @@ package cep
 
 import (
 	"context"
+	"runtime"
+	"time"
+
 	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
 	"github.com/jeffotoni/gocep/service/ristretto"
-	"runtime"
-	"time"
 )
 
 type Result struct {
@@ -17,7 +18,6 @@ type Result struct {
 var chResult = make(chan Result, len(models.Endpoints))
 
 func Search(cep string) (string, error) {
-
 	jsonCep := ristretto.Get(cep)
 	if len(jsonCep) > 0 {
 		return jsonCep, nil
@@ -35,13 +35,11 @@ func Search(cep string) (string, error) {
 		method := e.Method
 		payload := e.Body
 		go func(cancel context.CancelFunc, cep, method, source, endpoint, payload string, chResult chan<- Result) {
-
 			if source == "correio" {
 				NewRequestWithContextCorreio(ctx, cancel, cep, source, method, endpoint, payload, chResult)
 			} else {
 				NewRequestWithContext(ctx, cancel, cep, source, method, endpoint, chResult)
 			}
-
 		}(cancel, cep, method, source, endpoint, payload, chResult)
 	}
 
@@ -53,6 +51,5 @@ func Search(cep string) (string, error) {
 	case <-time.After(time.Duration(6) * time.Second):
 		cancel()
 	}
-
 	return config.JsonDefault, nil
 }

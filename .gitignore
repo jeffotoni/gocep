@@ -2,3 +2,5 @@ deploy.aws.sh
 deploy.hub.docker.sh
 docker-compose.aws.yaml
 deploy.gocep.aws.sh
+.vscode
+.idea
