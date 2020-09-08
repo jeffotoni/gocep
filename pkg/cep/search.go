@@ -15,15 +15,14 @@ type Result struct {
 	//WeCep *models.WeCep
 }
 
-var chResult = make(chan Result, len(models.Endpoints))
-
 func Search(cep string) (string, error) {
 	jsonCep := ristretto.Get(cep)
 	if len(jsonCep) > 0 {
 		return jsonCep, nil
 	}
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	var chResult = make(chan Result, len(models.Endpoints))
+	runtime.GOMAXPROCS(config.NumCPU)
 
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)

@@ -1,14 +1,14 @@
 package handler
 
 import (
-	"github.com/jeffotoni/gocep/pkg/cep"
-	"github.com/jeffotoni/gocep/pkg/util"
 	"net/http"
 	"strings"
+
+	"github.com/jeffotoni/gocep/pkg/cep"
+	"github.com/jeffotoni/gocep/pkg/util"
 )
 
 func SearchCep(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method != http.MethodGet {
 		http.Error(w, "not allowed", http.StatusMethodNotAllowed)
 		return
