@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jeffotoni/gcolor"
 	"github.com/jeffotoni/gocep/config"
 	handler "github.com/jeffotoni/gocep/handlers"
 )
@@ -17,7 +18,6 @@ func main() {
 		Addr:    config.Port,
 		Handler: mux,
 	}
-
-	log.Println("Port:", config.Port)
+	log.Println(gcolor.YellowCor("Server Run Port"), config.Port)
 	log.Fatal(server.ListenAndServe())
 }

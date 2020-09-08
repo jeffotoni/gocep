@@ -44,10 +44,10 @@ func Search(cep string) (string, error) {
 
 	select {
 	case result := <-chResult:
-		ristretto.SetTTL(cep, string(result.Body), time.Duration(time.Hour*72))
+		ristretto.SetTTL(cep, string(result.Body), time.Duration(config.TTlCache)*time.Second)
 		return string(result.Body), nil
 
-	case <-time.After(time.Duration(6) * time.Second):
+	case <-time.After(time.Duration(config.TimeOutSearchCep) * time.Second):
 		cancel()
 	}
 	return config.JsonDefault, nil

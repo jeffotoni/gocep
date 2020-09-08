@@ -53,7 +53,7 @@ func main() {
 		w.Write([]byte(result))
 	})
 
-	log.Fatal(http.ListenAndServe(":8080"))
+	log.Fatal(http.ListenAndServe(":8084"))
 }
 
 ```
@@ -107,7 +107,13 @@ $ curl -i http://localhost:8084/api/v1/08226021
 ## out
 ```bash
 
-$ {"cidade":"São Paulo","uf":"SP","logradouro":"18 de Abril","bairro":"Cidade Antônio Estevão de Carvalho"}
+$ 
+{
+	"cidade":"São Paulo",
+	"uf":"SP",
+	"logradouro":"18 de Abril",
+	"bairro":"Cidade Antônio Estevão de Carvalho"
+}
 
 ```
 
