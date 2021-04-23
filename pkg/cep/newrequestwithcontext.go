@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -23,9 +23,9 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		return
 	}
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		log.Println("Error ioutil.ReadAll:", err)
+		log.Println("Error io.ReadAll:", err)
 		return
 	}
 
