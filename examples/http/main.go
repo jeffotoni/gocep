@@ -39,12 +39,16 @@ func HandlerCep(w http.ResponseWriter, r *http.Request) {
 	result, err := cep.Search(cepstr)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(result))
+		//w.Write([]byte(result))
 		return
 	}
 
+	var b []byte
+	if len(result) > 0 {
+		b = []byte(string(result))
+	}
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(result))
+	w.Write(b)
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {

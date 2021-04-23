@@ -11,7 +11,10 @@ import (
 	"github.com/jeffotoni/gocep/models"
 )
 
-func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint string, chResult chan<- Result) {
+// NewRequestWithContext responsavel em fazer buscas de forma concorrente em seus respectivos
+// servidores
+func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, source, method,
+	endpoint string, chResult chan<- Result) {
 	endpoint = fmt.Sprintf(endpoint, cep)
 	req, err := http.NewRequestWithContext(ctx, method, endpoint, nil)
 	if err != nil {
@@ -36,63 +39,78 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		var wecep = &models.WeCep{}
 		switch source {
 		case "githubjeffotoni":
-			var githubjeff = models.GithubJeffotoni{}
-			err := json.Unmarshal(body, &githubjeff)
-			if err == nil {
-				wecep.Cidade = githubjeff.Cidade
-				wecep.Uf = githubjeff.Uf
-				wecep.Logradouro = githubjeff.Logradouro
-				wecep.Bairro = githubjeff.Bairro
-				b, err := json.Marshal(wecep)
-				if err == nil {
-					chResult <- Result{Body: b}
-					cancel()
-				}
-			}
+			githubjeffotoni(wecep, body, chResult, cancel)
 		case "viacep":
-			var viacep = models.ViaCep{}
-			err := json.Unmarshal(body, &viacep)
-			if err == nil {
-				wecep.Cidade = viacep.Localidade
-				wecep.Uf = viacep.Uf
-				wecep.Logradouro = viacep.Logradouro
-				wecep.Bairro = viacep.Bairro
-				b, err := json.Marshal(wecep)
-				if err == nil {
-					chResult <- Result{Body: b}
-					cancel()
-				}
-			}
+			viacep(wecep, body, chResult, cancel)
 		case "postmon":
-			var postmon = models.PostMon{}
-			err := json.Unmarshal(body, &postmon)
-			if err == nil {
-				wecep.Cidade = postmon.Cidade
-				wecep.Uf = postmon.Estado
-				wecep.Logradouro = postmon.Logradouro
-				wecep.Bairro = postmon.Bairro
-				b, err := json.Marshal(wecep)
-				if err == nil {
-					chResult <- Result{Body: b}
-					cancel()
-				}
-			}
-
+			postmon(wecep, body, chResult, cancel)
 		case "republicavirtual":
-			var repub = models.RepublicaVirtual{}
-			err := json.Unmarshal(body, &repub)
-			if err == nil {
-				wecep.Cidade = repub.Cidade
-				wecep.Uf = repub.Uf
-				wecep.Logradouro = repub.Logradouro
-				wecep.Bairro = repub.Bairro
-				b, err := json.Marshal(wecep)
-				if err == nil {
-					chResult <- Result{Body: b}
-					cancel()
-				}
-			}
+			republicavirtual(wecep, body, chResult, cancel)
 		}
 	}
 	return
+}
+
+func githubjeffotoni(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel context.CancelFunc) {
+	var githubjeff = models.GithubJeffotoni{}
+	err := json.Unmarshal(body, &githubjeff)
+	if err == nil {
+		wecep.Cidade = githubjeff.Cidade
+		wecep.Uf = githubjeff.Uf
+		wecep.Logradouro = githubjeff.Logradouro
+		wecep.Bairro = githubjeff.Bairro
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
+		}
+	}
+}
+
+func viacep(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel context.CancelFunc) {
+	var viacep = models.ViaCep{}
+	err := json.Unmarshal(body, &viacep)
+	if err == nil {
+		wecep.Cidade = viacep.Localidade
+		wecep.Uf = viacep.Uf
+		wecep.Logradouro = viacep.Logradouro
+		wecep.Bairro = viacep.Bairro
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
+		}
+	}
+}
+
+func postmon(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel context.CancelFunc) {
+	var postmon = models.PostMon{}
+	err := json.Unmarshal(body, &postmon)
+	if err == nil {
+		wecep.Cidade = postmon.Cidade
+		wecep.Uf = postmon.Estado
+		wecep.Logradouro = postmon.Logradouro
+		wecep.Bairro = postmon.Bairro
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
+		}
+	}
+}
+
+func republicavirtual(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel context.CancelFunc) {
+	var repub = models.RepublicaVirtual{}
+	err := json.Unmarshal(body, &repub)
+	if err == nil {
+		wecep.Cidade = repub.Cidade
+		wecep.Uf = repub.Uf
+		wecep.Logradouro = repub.Logradouro
+		wecep.Bairro = repub.Bairro
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
+		}
+	}
 }
