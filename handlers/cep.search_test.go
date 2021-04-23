@@ -4,6 +4,8 @@ import (
 	"io"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // go test -run ^TestSearchCep$ -v
@@ -34,11 +36,7 @@ func TestSearchCep(t *testing.T) {
 			SearchCep(w, req)
 			resp := w.Result()
 			defer resp.Body.Close()
-
-			if tt.want != resp.StatusCode {
-				t.Errorf("Error want=%d got=%d", tt.want, resp.StatusCode)
-			}
-
+			assert.Equal(t, tt.want, resp.StatusCode)
 			if tt.bodyShow {
 				body, _ := io.ReadAll(resp.Body)
 				t.Log("\n Resp : \n", string(body), "\n")
