@@ -13,7 +13,7 @@
 [4]: https://github.com/jeffotoni/gocep/releases
 [5]: https://coveralls.io/repos/github/jeffotoni/gocep/badge.svg?branch=master
 [6]: https://coveralls.io/github/jeffotoni/gocep?branch=master
-[7]: https://travis-ci.com/jeffotoni/gocep.svg?branch=master
+[7]: https://app.travis-ci.com/jeffotoni/gocep.svg?branch=master
 [8]: https://travis-ci.com/jeffotoni/gocep
 [9]: https://goreportcard.com/badge/github.com/jeffotoni/gocep
 [10]: https://goreportcard.com/report/github.com/jeffotoni/gocep
