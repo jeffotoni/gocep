@@ -55,7 +55,7 @@ Da uma conferida em alguns examplos aqui de como fazer chamadas do gocep em dive
 Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. 
 O server irá funcionar na porta 8080, mas caso queira alterar basta ir na pasta /config.
 
-Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8080 será aberta para consumir o endpoint /api/v1/{cep}
+Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8080 será aberta para consumir o endpoint /v1/cep/{cep}
 
 Tudo muito legal não é ?? ❤️😍😍
 
@@ -124,7 +124,7 @@ gocep   /gocep    Up      0.0.0.0:8080->8080/tcp
 ### Executando sua API
 ```bash
 
-$ curl -i -XGET http://localhost:8080/api/v1/08226021
+$ curl -i -XGET http://localhost:8080/v1/cep/08226021
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Sun, 19 Feb 2023 13:15:03 GMT

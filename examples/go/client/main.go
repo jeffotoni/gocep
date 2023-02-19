@@ -10,7 +10,7 @@ import (
 
 func main() {
 	cep := "08226021"
-	url := fmt.Sprintf("http://localhost:8080/api/v1/%s", url.QueryEscape(cep))
+	url := fmt.Sprintf("http://localhost:8080/v1/cep/%s", url.QueryEscape(cep))
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println("http.NewRequest:", err)

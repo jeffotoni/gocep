@@ -11,7 +11,7 @@ int main(void)
 
   curl = curl_easy_init();
   if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8080/api/v1/08226021");
+    curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8080/v1/cep/08226021");
     res = curl_easy_perform(curl);
     if(res != CURLE_OK)
       fprintf(stderr, "curl_easy_perform() failed: %s\n",

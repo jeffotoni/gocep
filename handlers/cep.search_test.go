@@ -22,8 +22,8 @@ func TestSearchCep(t *testing.T) {
 		want     int //statuscode
 		bodyShow bool
 	}{
-		// TODO: Add test cases. [GET] /api/v1/xxxx
-		{"test_searchcep_", args{"GET", "application/json", nil, "/api/v1/08226021"}, 200, false},
+		// TODO: Add test cases. [GET] /v1/cep/xxxx
+		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/08226021"}, 200, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

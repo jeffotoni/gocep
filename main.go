@@ -12,8 +12,8 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/v1/", handler.SearchCep)
-	mux.HandleFunc("/api/v1", handler.NotFound)
+	mux.HandleFunc("/v1/cep/", handler.SearchCep)
+	mux.HandleFunc("/v1/cep", handler.NotFound)
 	mux.HandleFunc("/", handler.NotFound)
 	muxcors := cors.Default().Handler(mux)
 	server := &http.Server{
@@ -21,6 +21,6 @@ func main() {
 		Handler: muxcors,
 	}
 	log.Println(gcolor.YellowCor("Server Run Port"), config.Port)
-	log.Println(gcolor.YellowCor("/api/v1/:cep"))
+	log.Println(gcolor.YellowCor("/v1/cep/:cep"))
 	log.Fatal(server.ListenAndServe())
 }

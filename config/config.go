@@ -1,6 +1,8 @@
 package config
 
-import "runtime"
+import (
+	"runtime"
+)
 
 var (
 	Port = "0.0.0.0:8080"

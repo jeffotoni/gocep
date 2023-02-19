@@ -9,7 +9,7 @@ error_chain! {
 }
 
 fn main() -> Result<()> {
-    let mut res = reqwest::blocking::get("http://localhost:8080/api/v1/08226021")?;
+    let mut res = reqwest::blocking::get("http://localhost:8080/v1/cep/08226021")?;
     let mut body = String::new();
     res.read_to_string(&mut body)?;
 

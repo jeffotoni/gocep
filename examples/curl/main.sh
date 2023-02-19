@@ -1,1 +1,1 @@
-curl -i -XGET 'http://localhost:8080/api/v1/08226021'
+curl -i -XGET 'http://localhost:8080/v1/cep/08226021'

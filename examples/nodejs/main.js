@@ -1,6 +1,6 @@
 const https = require('http');
 
-https.get('http://localhost:8080/api/v1/08226021', res => {
+https.get('http://localhost:8080/v1/cep/08226021', res => {
     let data = [];
     console.log('Status Code:', res.statusCode);
 
