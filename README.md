@@ -82,7 +82,9 @@ Da uma conferida em alguns examplos aqui de como fazer chamadas do gocep em dive
  - python
  - php
  - javascript
- - go
+ - go lib
+ - go server
+ - go client
  - rust
  - C
 
