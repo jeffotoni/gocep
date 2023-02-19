@@ -9,7 +9,7 @@
 
 [1]: https://godoc.org/github.com/jeffotoni/gocep?status.svg
 [2]: https://godoc.org/github.com/jeffotoni/gocep
-[3]: https://img.shields.io/travis/jeffotoni/gocep/master.svg?style=flat-square
+[3]: https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases
 [4]: https://github.com/jeffotoni/gocep/releases
 [5]: https://coveralls.io/repos/github/jeffotoni/gocep/badge.svg?branch=master
 [6]: https://coveralls.io/github/jeffotoni/gocep?branch=master
