@@ -59,11 +59,11 @@ Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e 
 
 Tudo muito legal não é ?? ❤️😍😍
 
-### Install gocep
+#### Install gocep
 
 Caso queira utilizar ele como serviço, basta baixa-lo ou usar o docker para utilizado.
 
-### linux bash
+#### linux bash
 ```bash
 $ git clone https://github.com/jeffotoni/gocep
 $ cd gocep
@@ -73,7 +73,7 @@ $ 2020/04/21 12:56:46 Port: 0.0.0.0:8080
 
 ```
 
-### docker e docker-compose
+#### docker e docker-compose
 
 Deixei um script para facilitar a criação de sua imagem, todos os arquivos estão na raiz, docker-compose.yaml, Dockerfile tudo que precisa para personalizar ainda mais se precisar.
 
@@ -110,7 +110,7 @@ $ make compose
 
 ```
 
-### Listando service
+#### Listando service
 ```bash
 $ docker-compose ps
 Creating gocep ... done
@@ -121,7 +121,7 @@ gocep   /gocep    Up      0.0.0.0:8080->8080/tcp
 
 ```
 
-### Executando sua API
+#### Executando sua API
 ```bash
 
 $ curl -i -XGET http://localhost:8080/v1/cep/08226021
@@ -136,6 +136,16 @@ Content-Length: 112
 	"bairro":"Cidade Antônio Estevão de Carvalho"
 }
 
+```
+
+#### Docker
+
+Também poderá usar o Docker se desejar
+
+```bash
+$ docker run --name gocep --rm -p 8080:8080 jeffotoni/gocep:latest
+2023/02/19 17:12:03 Server Run Port 0.0.0.0:8080
+2023/02/19 17:12:03 /v1/cep/:cep
 ```
 
 #### Usar como Lib
