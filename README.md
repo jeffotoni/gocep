@@ -146,6 +146,18 @@ Também poderá usar o Docker se desejar
 $ docker run --name gocep --rm -p 8080:8080 jeffotoni/gocep:latest
 2023/02/19 17:12:03 Server Run Port 0.0.0.0:8080
 2023/02/19 17:12:03 /v1/cep/:cep
+
+$ curl -i -XGET http://localhost:8080/v1/cep/08226021
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 19 Feb 2023 13:15:03 GMT
+Content-Length: 112
+{
+	"cidade":"São Paulo",
+	"uf":"SP",
+	"logradouro":"18 de Abril",
+	"bairro":"Cidade Antônio Estevão de Carvalho"
+}
 ```
 
 #### Usar como Lib
