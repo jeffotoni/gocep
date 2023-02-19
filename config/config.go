@@ -3,7 +3,7 @@ package config
 import "runtime"
 
 var (
-	Port = ":8084"
+	Port = "0.0.0.0:8080"
 )
 
 var JsonDefault = `{"cidade":"","uf":"","logradouro":"","bairro":""}`

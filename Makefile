@@ -22,15 +22,7 @@ update:
 	@echo "\033[0;33m################ Enviando para o server #####################\033[0m"
 	@echo "fim"
 
-deploy.docker:
+compose:
 	@echo "########## Compilando nossa API ... "
-	sh deploy.docker.hub.sh
+	sh deploy.gocep.sh
 	@echo "fim"
-
-deploy.aws:
-	@echo "########## Compilando nossa API ... "
-	sh deploy.aws.sh
-	@echo "fim"
-
-help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

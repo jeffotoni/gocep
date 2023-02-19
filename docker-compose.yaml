@@ -14,7 +14,7 @@ services:
            aliases:
               - gocep.local.com
     ports:
-      - 8084:8084
+      - 8080:8080
     restart: always
 
 networks:

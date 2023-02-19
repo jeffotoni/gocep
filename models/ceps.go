@@ -12,6 +12,15 @@ type WeCep struct {
 	Bairro     string `json:"bairro"`
 }
 
+type CdnApiCep struct {
+	Status   int    `json:"status"`
+	Code     string `json:"code"`
+	State    string `json:"state"`
+	City     string `json:"city"`
+	District string `json:"district"`
+	Address  string `json:"address"`
+}
+
 type GithubJeffotoni struct {
 	Cep        string `json:"cep"`
 	Logradouro string `json:"logradouro"`
@@ -22,7 +31,7 @@ type GithubJeffotoni struct {
 	Ibge       int    `json:"ibge"`
 }
 
-//viacep
+// viacep
 type ViaCep struct {
 	Cep         string `json:"cep"`
 	Logradouro  string `json:"logradouro"`
@@ -35,7 +44,7 @@ type ViaCep struct {
 	Gia         string `json:"gia"`
 }
 
-//postmon
+// postmon
 type PostMon struct {
 	Bairro     string `json:"bairro"`
 	Cidade     string `json:"cidade"`
@@ -53,7 +62,7 @@ type PostMon struct {
 	Estado string `json:"estado"`
 }
 
-//republicavirtual
+// republicavirtual
 type RepublicaVirtual struct {
 	Resultado      string `json:"resultado"`
 	ResultadoTxt   string `json:"resultado_txt"`

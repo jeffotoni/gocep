@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Port = ":8080"
+	Port = "0.0.0.0:8080"
 )
 
 func main() {

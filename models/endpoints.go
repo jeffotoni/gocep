@@ -8,6 +8,7 @@ type end struct {
 }
 
 var Endpoints = []end{
+	//{"GET", "apicep", "https://cdn.apicep.com/file/apicep/%s.json", ""},
 	{"GET", "githubjeffotoni", "https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/%s", ""},
 	{"GET", "viacep", "https://viacep.com.br/ws/%s/json/", ""},
 	{"GET", "postmon", "https://api.postmon.com.br/v1/cep/%s", ""},

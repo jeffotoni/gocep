@@ -9,6 +9,7 @@ import (
 )
 
 func SearchCep(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	if r.Method != http.MethodGet {
 		http.Error(w, "not allowed", http.StatusMethodNotAllowed)
 		return
