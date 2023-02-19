@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/jeffotoni/gocep/pkg/cep"
+	"github.com/rs/cors"
 )
 
 var (
@@ -18,18 +19,18 @@ func main() {
 	mux.HandleFunc("/cep/", HandlerCep)
 	mux.HandleFunc("/cep", NotFound)
 	mux.HandleFunc("/", NotFound)
-
+	muxcors := cors.Default().Handler(mux)
 	server := &http.Server{
 		Addr:    Port,
-		Handler: mux,
+		Handler: muxcors,
 	}
 
-	log.Println("port", Port)
+	log.Println("Run My Server ", Port)
 	log.Fatal(server.ListenAndServe())
 }
 
 func HandlerCep(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Add("Content-Type", "application/json")
 	cepstr := strings.Split(r.URL.Path[1:], "/")[1]
 	if len(cepstr) != 8 {
 		w.WriteHeader(http.StatusBadRequest)
@@ -38,8 +39,8 @@ func HandlerCep(w http.ResponseWriter, r *http.Request) {
 
 	result, err := cep.Search(cepstr)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
-		//w.Write([]byte(result))
 		return
 	}
 
