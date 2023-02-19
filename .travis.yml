@@ -1,4 +1,6 @@
 language: go
+go:
+  - 1.20.x
 arch:
     - amd64
     - ppc64le
@@ -10,3 +12,6 @@ script:
   - go test -race -v ./...
 after_script:
   - $HOME/gopath/bin/goveralls -service=travis-ci -repotoken $COVERALLS_TOKEN
+
+notifications:
+  email: true
