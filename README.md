@@ -37,64 +37,6 @@ Podendo implementar para ter uma saída ainda mais completa conforme sua necessi
 
 O server é extremamente rápido, e usa cache em memória ele está configurado para 2G de Ram, caso queira alterar está tudo bonitinho no /config.
 
-Gocep também poderá ser usado como Lib, ou seja você irá conseguir fazer um import em seu pkg/searchcep e fazer a chamada direto do seu método em seu código.
-
-#### Usar como Lib
-```go
-
-package main
-
-import (
-	"fmt"
-	"github.com/jeffotoni/gocep/pkg/cep"
-)
-
-func main() {
-
-	result, err := cep.Search("6233903")
-	fmt.Println(err)
-	fmt.Println(result)
-}
-
-```
-
-Ou se preferir for criar seu próprio serviço em Go e sua api basta fazer como exemplo abaixo:
-
-#### Criando seu próprio WebServer usando gocep
-```bash
-package main
-
-import (
-	"log"
-	"net/http"
-	"fmt"
-	"github.com/jeffotoni/gocep/pkg/cep"
-)
-
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/cep/", func(w http.ResponseWriter, r *http.Request){
-		w.Header().Add("Content-Type", "application/json")
-		cepstr := strings.Split(r.URL.Path[1:], "/")[1]
-		if len(cepstr) != 8 {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		result, err := cep.Search(cepstr)
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte(result))
-			return
-		}
-
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(result))
-	})
-	log.Fatal(http.ListenAndServe("0.0.0.0:8080"))
-}
-```
-
 #### Fazendo chamadas do gocep em outras Langs
 
 Da uma conferida em alguns examplos aqui de como fazer chamadas do gocep em diversas linguagens:
@@ -196,6 +138,64 @@ Content-Length: 112
 
 ```
 
+#### Usar como Lib
+
+Gocep também poderá ser usado como Lib, ou seja você irá conseguir fazer um import em seu pkg/searchcep e fazer a chamada direto do seu método em seu código.
+
+```go
+
+package main
+
+import (
+	"fmt"
+	"github.com/jeffotoni/gocep/pkg/cep"
+)
+
+func main() {
+
+	result, err := cep.Search("6233903")
+	fmt.Println(err)
+	fmt.Println(result)
+}
+
+```
+
+Ou se preferir for criar seu próprio serviço em Go e sua api basta fazer como exemplo abaixo:
+
+#### Criando seu próprio WebServer usando gocep
+```bash
+package main
+
+import (
+	"log"
+	"net/http"
+	"fmt"
+	"github.com/jeffotoni/gocep/pkg/cep"
+)
+
+func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/cep/", func(w http.ResponseWriter, r *http.Request){
+		w.Header().Add("Content-Type", "application/json")
+		cepstr := strings.Split(r.URL.Path[1:], "/")[1]
+		if len(cepstr) != 8 {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		result, err := cep.Search(cepstr)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(result))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(result))
+	})
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080"))
+}
+```
 Temos uma estrutura padrão de retorno do JSON.
 
 #### Struct Go
@@ -221,7 +221,4 @@ type WeCep struct {
 	}
 
 ```
-
-
-
 
