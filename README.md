@@ -38,8 +38,7 @@ func main() {
 
 ```
 
-Ou se preferir for criar seu próprio serviço e sua api basta fazer como exemplo abaixo:
-Da uma conferida em alguns examplos aqui de como integrar a lib gocep em seu projeto: [exemplos](https://github.com/jeffotoni/gocep/tree/master/examples)
+Ou se preferir for criar seu próprio serviço em Go e sua api basta fazer como exemplo abaixo:
 
 #### Criando seu próprio WebServer usando gocep
 ```bash
@@ -74,8 +73,20 @@ func main() {
 	})
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080"))
 }
-
 ```
+
+#### Fazendo chamadas do gocep em outras Langs
+
+Da uma conferida em alguns examplos aqui de como fazer chamadas do gocep em diversas linguagens:
+ - nodejs
+ - python
+ - php
+ - javascript
+ - go
+ - rust
+ - C
+
+[exemplos](https://github.com/jeffotoni/gocep/tree/master/examples)
 
 Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. 
 O server irá funcionar na porta 8080, mas caso queira alterar basta ir na pasta /config.
