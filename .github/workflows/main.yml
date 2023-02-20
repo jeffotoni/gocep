@@ -17,6 +17,9 @@ jobs:
         
     - name: Run tests
       run: |
+        rm -f go.*
+        go mod init github.com/jeffotoni/gocep
+        go mod tidy
         go test -coverprofile=coverage.out ./...
 
     - name: Submit coverage to Coveralls
