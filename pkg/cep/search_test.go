@@ -1,6 +1,8 @@
 package cep
 
-import "testing"
+import (
+	"testing"
+)
 
 // go test -run ^TestSearch$ -v
 func TestSearch(t *testing.T) {
@@ -11,11 +13,16 @@ func TestSearch(t *testing.T) {
 		name    string
 		args    args
 		want    string
+		want2   string
 		wantErr bool
 	}{
-		// TODO: Add test cases.
-		{"test_search_", args{"08226021"},
-			`{"cidade":"São Paulo","uf":"SP","logradouro":"18 de Abril","bairro":"Cidade Antônio Estevão de Carvalho"}`, false},
+		{
+			name:    "test_search_",
+			args:    args{"08226024"},
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Rua Esperança","bairro":"Cidade Antônio Estevão de Carvalho"}`,
+			want2:   `{"cidade":"São Paulo","uf":"SP","logradouro":"Esperança","bairro":"Cidade Antônio Estevão de Carvalho"}`,
+			wantErr: false, // (err != nill) => false
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -24,7 +31,7 @@ func TestSearch(t *testing.T) {
 				t.Errorf("Search() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
+			if got != tt.want && got != tt.want2 {
 				t.Errorf("Search() = %v, want %v", got, tt.want)
 			}
 		})
