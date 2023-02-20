@@ -3,9 +3,8 @@ package handler
 import (
 	"io"
 	"net/http/httptest"
+	"reflect"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 // go test -run ^TestSearchCep$ -v
@@ -36,7 +35,12 @@ func TestSearchCep(t *testing.T) {
 			SearchCep(w, req)
 			resp := w.Result()
 			defer resp.Body.Close()
-			assert.Equal(t, tt.want, resp.StatusCode)
+
+			if !reflect.DeepEqual(resp.StatusCode, tt.want) {
+				t.Errorf("Call() out status = %v, want status %v", resp.StatusCode, tt.want)
+				return
+			}
+			// assert.Equal(t, tt.want, resp.StatusCode)
 			if tt.bodyShow {
 				body, _ := io.ReadAll(resp.Body)
 				t.Log("\n Resp : \n", string(body), "\n")
