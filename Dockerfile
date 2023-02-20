@@ -1,4 +1,4 @@
-FROM golang:1.20 as builder
+FROM golang:alpine AS builder
 WORKDIR /go/src/gocep
 COPY . .
 ENV GO111MODULE=on

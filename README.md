@@ -1,25 +1,15 @@
 # gocep
+[![GoDoc](https://godoc.org/github.com/jeffotoni/gocep?status.svg)](https://godoc.org/github.com/jeffotoni/gocep)
 
-[![GoDoc][1]][2]
-[![GitHub release][3]][4]
-[![Coverage Status][5]][6]
-[![Build Status][7]][8]
-[![Go Report Card][9]][10]
-[![License][11]][12]
-[![Vulnerabilities][12]][12]
+[![Github Release](https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases)](https://img.shields.io/github/v/release/jeffotoni/gocep)
 
-[1]: https://godoc.org/github.com/jeffotoni/gocep?status.svg
-[2]: https://godoc.org/github.com/jeffotoni/gocep
-[3]: https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases
-[4]: https://github.com/jeffotoni/gocep/releases
-[5]: https://coveralls.io/repos/github/jeffotoni/gocep/badge.svg?branch=master
-[6]: https://coveralls.io/github/jeffotoni/gocep?branch=master
-[7]: https://app.travis-ci.com/jeffotoni/gocep.svg?branch=master
-[8]: https://travis-ci.com/jeffotoni/gocep
-[9]: https://goreportcard.com/badge/github.com/jeffotoni/gocep
-[10]: https://goreportcard.com/report/github.com/jeffotoni/gocep
-[11]: https://img.shields.io/github/license/jeffotoni/gocep
-[12]: https://snyk.io/test/github/jeffotoni/gocep/badge.svg
+[![Vulnerabilities](https://snyk.io/test/github/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep)
+
+[![Coverage Status](https://coveralls.io/repos/github/jeffotoni/gocep/badge.svg)](https://coveralls.io/github/jeffotoni/gocep)
+
+[![Go Report](https://goreportcard.com/badge/github.com/jeffotoni/gocep)](https://goreportcard.com/badge/github.com/jeffotoni/gocep)
+
+[![License](https://img.shields.io/github/license/jeffotoni/gocep)](https://img.shields.io/github/license/jeffotoni/gocep)
 
 Um simples pacote para buscar ceps em bases públicas na internet utilizando *concorrência*.
 Atualizamos para buscar não somente de bases públicas como também busca do correios que é chamadas SOAPs e busca também de uma base que encontra-se no [ceps github](https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/) em raw.
