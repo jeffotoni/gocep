@@ -1,31 +1,27 @@
-name: CI
+on: ["push"]
 
-on: [push]
+name: Coveralls Gocep
 
 jobs:
+
   build:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v2
       with:
-        python-version: 3.8
+        node-version: 16.x
 
-    - name: Install dependencies
+    - name: npm install, make test-coverage
       run: |
-        sudo apt-get update
-        sudo apt-get install -y lcov
+        npm install
+        make test-coverage
 
-    - name: Run tests
-      run: |
-        pip install pytest-cov
-        pytest --cov=gocep --cov-report=xml
-
-    - name: Submit coverage to Coveralls
-      uses: coverallsapp/github-action@v1
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
       with:
-        repo-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
