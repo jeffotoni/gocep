@@ -1,27 +1,28 @@
-on: ["push"]
+name: CI
 
-name: Coveralls Gocep
+on: [push]
 
 jobs:
-
   build:
-    name: Build
     runs-on: ubuntu-latest
+
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
       with:
-        node-version: 16.x
+        go-version: 1.20
 
-    - name: npm install, make test-coverage
+    - name: Run tests
       run: |
-        npm install
-        make test-coverage
+        go test -race -v ./...
+        go test -coverprofile=coverage.out ./...
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
+    - name: Submit coverage to Coveralls
+      uses: coverallsapp/github-action@v1
       with:
-        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        repo-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        flags: -v
+        file: coverage.out
