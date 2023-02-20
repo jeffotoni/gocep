@@ -17,7 +17,7 @@ jobs:
         
     - name: Run tests
       run: |
-        go test -coverprofile=coverage.out ./...
+        go test -v -tags musl -covermode atomic -coverprofile==coverage.out ./...
 
     - name: Submit coverage to Coveralls
       uses: coverallsapp/github-action@master
