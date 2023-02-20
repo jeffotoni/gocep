@@ -5,7 +5,7 @@
 [![Coverage Status][5]][6]
 [![Build Status][7]][8]
 [![Go Report Card][9]][10]
-[![License][11]][11]
+[![License][11]][12]
 [![Vulnerabilities][12]][12]
 
 
