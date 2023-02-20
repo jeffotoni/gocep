@@ -7,7 +7,7 @@ import (
 
 	"github.com/jeffotoni/gocep/config"
 	"github.com/jeffotoni/gocep/models"
-	"github.com/jeffotoni/gocep/service/ristretto"
+	"github.com/jeffotoni/gocep/service/gocache"
 )
 
 type Result struct {
@@ -16,7 +16,7 @@ type Result struct {
 }
 
 func Search(cep string) (string, error) {
-	jsonCep := ristretto.Get(cep)
+	jsonCep := gocache.Get(cep)
 	if len(jsonCep) > 0 {
 		return jsonCep, nil
 	}
@@ -44,7 +44,7 @@ func Search(cep string) (string, error) {
 
 	select {
 	case result := <-chResult:
-		ristretto.SetTTL(cep, string(result.Body), time.Duration(config.TTlCache)*time.Second)
+		gocache.SetTTL(cep, string(result.Body), time.Duration(config.TTlCache)*time.Second)
 		return string(result.Body), nil
 
 	case <-time.After(time.Duration(config.TimeOutSearchCep) * time.Second):

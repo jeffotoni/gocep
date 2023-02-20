@@ -12,7 +12,7 @@ build:
 	#upx gocep
 	@echo "buid completo..."
 	@echo "\033[0;33m################ run #####################\033[0m"
-	./gocep
+	rm -f gocep
 
 update:
 	@echo "########## Compilando nossa API ... "
@@ -23,8 +23,12 @@ update:
 	@echo "buid completo..."
 	@echo "\033[0;33m################ Enviando para o server #####################\033[0m"
 	@echo "fim"
+	rm -f gocep
 
 compose:
 	@echo "########## Compilando nossa API ... "
 	sh deploy.gocep.sh
 	@echo "fim"
+
+tests: 
+	go test -race -v ./...
