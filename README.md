@@ -5,7 +5,9 @@
 [![Coverage Status][5]][6]
 [![Build Status][7]][8]
 [![Go Report Card][9]][10]
-[![License][11]][11]
+[![License][11]][12]
+[![Vulnerabilities][13]][13]
+
 
 [1]: https://godoc.org/github.com/jeffotoni/gocep?status.svg
 [2]: https://godoc.org/github.com/jeffotoni/gocep
@@ -18,7 +20,7 @@
 [9]: https://goreportcard.com/badge/github.com/jeffotoni/gocep
 [10]: https://goreportcard.com/report/github.com/jeffotoni/gocep
 [11]: https://img.shields.io/github/license/jeffotoni/gocep
-
+[12]: https://snyk.io/test/github/jeffotoni/gocep/badge.svg
 
 Um simples pacote para buscar ceps em bases públicas na internet utilizando *concorrência*.
 Atualizamos para buscar não somente de bases públicas como também busca do correios que é chamadas SOAPs e busca também de uma base que encontra-se no [ceps github](https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/) em raw.
