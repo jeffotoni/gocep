@@ -3,14 +3,29 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.20.1
+      - image: circleci/golang:1.19
+
     steps:
       - checkout
-      - run: make deps
-      - run: make test
 
-workflows:
-  version: 2
-  build:
-    jobs:
-      - build
+      - run:
+          name: "Install dependencies"
+          command: |
+            go get -t -v ./...
+
+      - run:
+          name: "Test"
+          command: |
+            go test -v -covermode=count -coverprofile=coverage.out ./...
+
+      - store_artifacts:
+          path: coverage.out
+
+      - store_test_results:
+          path: tests
+
+      - run:
+          name: "Upload coverage to Coveralls"
+          command: |
+            go get github.com/mattn/goveralls
+            goveralls -coverprofile=coverage.out -service=circleci -repotoken $COVERALLS_TOKEN
