@@ -8,7 +8,6 @@
 [![License][11]][12]
 [![Vulnerabilities][12]][12]
 
-
 [1]: https://godoc.org/github.com/jeffotoni/gocep?status.svg
 [2]: https://godoc.org/github.com/jeffotoni/gocep
 [3]: https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases
