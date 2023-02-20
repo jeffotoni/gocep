@@ -5,7 +5,7 @@
 
 [![Vulnerabilities](https://snyk.io/test/github/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep)
 
-[![Coverage Status](https://coveralls.io/repos/github/jeffotoni/gocep/badge.svg)](https://coveralls.io/github/jeffotoni/gocep)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/jeffotoni/gocep/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/jeffotoni/gocep/tree/master)
 
 [![Go Report](https://goreportcard.com/badge/github.com/jeffotoni/gocep)](https://goreportcard.com/badge/github.com/jeffotoni/gocep)
 
