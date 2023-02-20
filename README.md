@@ -1,15 +1,5 @@
 # gocep
-[![GoDoc](https://godoc.org/github.com/jeffotoni/gocep?status.svg)](https://godoc.org/github.com/jeffotoni/gocep)
-
-[![Github Release](https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases)](https://img.shields.io/github/v/release/jeffotoni/gocep)
-
-[![Vulnerabilities](https://snyk.io/test/github/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep)
-
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/jeffotoni/gocep/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/jeffotoni/gocep/tree/master)
-
-[![Go Report](https://goreportcard.com/badge/github.com/jeffotoni/gocep)](https://goreportcard.com/badge/github.com/jeffotoni/gocep)
-
-[![License](https://img.shields.io/github/license/jeffotoni/gocep)](https://img.shields.io/github/license/jeffotoni/gocep)
+[![GoDoc](https://godoc.org/github.com/jeffotoni/gocep?status.svg)](https://godoc.org/github.com/jeffotoni/gocep) [![Github Release](https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases)](https://img.shields.io/github/v/release/jeffotoni/gocep) [![Vulnerabilities](https://snyk.io/test/github/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/jeffotoni/gocep/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/jeffotoni/gocep/tree/master) [![Go Report](https://goreportcard.com/badge/github.com/jeffotoni/gocep)](https://goreportcard.com/badge/github.com/jeffotoni/gocep) [![License](https://img.shields.io/github/license/jeffotoni/gocep)](https://img.shields.io/github/license/jeffotoni/gocep)
 
 Um simples pacote para buscar ceps em bases públicas na internet utilizando *concorrência*.
 Atualizamos para buscar não somente de bases públicas como também busca do correios que é chamadas SOAPs e busca também de uma base que encontra-se no [ceps github](https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/) em raw.
