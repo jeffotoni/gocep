@@ -30,6 +30,6 @@ compose:
 	sh deploy.gocep.sh
 	@echo "fim"
 
-tests: 
+test: 
 	go test -race -v ./...
 	go test -v -tags musl -covermode atomic -coverprofile==coverage.out ./...
