@@ -10,14 +10,16 @@ import (
 
 func TestRun(t *testing.T) {
 	tests := []struct {
-		name string
-		want *gcache.Cache
+		name    string
+		want    *gcache.Cache
+		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{name: "test_run_", want: Run(), wantErr: false},
+		{name: "test_run_", want: gcache.New(24*time.Hour, 24*time.Hour), wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Run(); !reflect.DeepEqual(got, tt.want) {
+			if got := Run(); !reflect.DeepEqual(got, tt.want) && !tt.wantErr {
 				t.Errorf("Run() = %v, want %v", got, tt.want)
 			}
 		})

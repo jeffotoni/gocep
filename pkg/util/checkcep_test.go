@@ -11,11 +11,16 @@ func TestCheckCep(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
 		{"test_chekcep_", args{"08226021"}, false},
 		{"test_chekcep_", args{"01010001"}, false},
 		{"test_chekcep_", args{"01010900"}, false},
 		{"test_chekcep_", args{"xxxxxxxxx"}, true},
+		{"test_chekcep_", args{"1234567"}, true},
+		{"test_chekcep_", args{"123456789"}, true},
+		{"test_chekcep_", args{"abc12345"}, true},
+		{"test_chekcep_", args{"#$%&*^@"}, true},
+		{"test_chekcep_", args{""}, true},
+		{"test_chekcep_", args{"      "}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
