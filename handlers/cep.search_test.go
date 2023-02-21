@@ -21,7 +21,9 @@ func TestSearchCep(t *testing.T) {
 		want     int //statuscode
 		bodyShow bool
 	}{
-		// TODO: Add test cases. [GET] /v1/cep/xxxx
+		// [GET] /v1/cep/xxxx
+		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/0"}, 400, false},
+		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/08226-021"}, 400, false},
 		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/08226021"}, 200, false},
 	}
 	for _, tt := range tests {
