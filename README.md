@@ -15,6 +15,7 @@ Está configurado para buscar em:
  - Correio 
  - github Raw Cep
  - Cdn api cep
+ - Brasil Api
 
 Podendo implementar para ter uma saída ainda mais completa conforme sua necessidade, então fique a vontade em alterar conforme seu cenário.
 
