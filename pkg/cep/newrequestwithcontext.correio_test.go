@@ -39,7 +39,7 @@ func ExampleNewRequestWithContextCorreio() {
 	// Output: {"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}
 }
 
-// go test -run ^TestNewRequestWithContextCorreio'$ -v
+// go test -run ^TestNewRequestWithContextCorreio$ -v
 func TestNewRequestWithContextCorreio(t *testing.T) {
 	type args struct {
 		ctx      context.Context

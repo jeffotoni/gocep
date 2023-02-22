@@ -33,7 +33,7 @@ func ExampleNewRequestWithContext() {
 	// Output: {"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}
 }
 
-// go test -run ^TestNewRequestWithContext'$ -v
+// go test -run ^TestNewRequestWithContext$ -v
 func TestNewRequestWithContext(t *testing.T) {
 	type args struct {
 		cep      string
