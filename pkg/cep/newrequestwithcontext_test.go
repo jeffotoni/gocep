@@ -71,6 +71,16 @@ func TestNewRequestWithContext(t *testing.T) {
 			},
 			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
 		},
+		{name: "test_new_request_with_context_brasilapi_",
+		args: args{
+			cep:      "01001000",
+			source:   "brasilapi",
+			method:   "GET",
+			endpoint: "https://brasilapi.com.br/api/cep/v1/%s",
+			chResult: make(chan Result),
+		},
+		want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+	},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
