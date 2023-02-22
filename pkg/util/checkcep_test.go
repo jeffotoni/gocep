@@ -1,7 +1,18 @@
 package util
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
+// Esse exemplo passa um cep inválido para função CheckCep
+func ExampleCheckCep() {
+	err := CheckCep("não é um cep")
+	fmt.Println(err)
+	// Output: {"msg":"error cep tem que ser valido"}
+}
+
+// go test -run ^TestCheckCep'$ -v
 func TestCheckCep(t *testing.T) {
 	type args struct {
 		cep string

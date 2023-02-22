@@ -10,11 +10,14 @@ import (
 	"github.com/jeffotoni/gocep/service/gocache"
 )
 
+// Result representa a resposta da requisição em uma das APIs
 type Result struct {
 	Body []byte
 	//WeCep *models.WeCep
 }
 
+// Search busca o cep informado de forma concorrente nas APIs definidas em [pkg/models/endpoints.go],
+// retornando a primeira resposta(string em formato JSON) e um erro.
 func Search(cep string) (string, error) {
 	jsonCep := gocache.Get(cep)
 	if len(jsonCep) > 0 {
