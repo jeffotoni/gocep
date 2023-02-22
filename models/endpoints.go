@@ -21,4 +21,5 @@ var Endpoints = []end{
 	        </cli:consultaCEP>
 	    </x:Body>
 	</x:Envelope>`},
+	{"GET", "brasilapi", "https://brasilapi.com.br/api/cep/v1/%s", ""},
 }

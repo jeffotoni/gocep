@@ -52,7 +52,8 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		case "cdnapicep":
 			println("cdnapicep")
 			cdnapicep(wecep, body, chResult, cancel)
-
+		case "brasilapi":
+			brasilapi(wecep, body, chResult, cancel)
 		}
 	}
 	return
@@ -138,6 +139,22 @@ func cdnapicep(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel 
 		wecep.Uf = cdnapi.State
 		wecep.Logradouro = cdnapi.Address
 		wecep.Bairro = cdnapi.District
+		b, err := json.Marshal(wecep)
+		if err == nil {
+			chResult <- Result{Body: b}
+			cancel()
+		}
+	}
+}
+
+func brasilapi(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel context.CancelFunc) {
+	var brasilapi = models.BrasilAPI{}
+	err := json.Unmarshal(body, &brasilapi)
+	if err == nil {
+		wecep.Cidade = brasilapi.City
+		wecep.Uf = brasilapi.State
+		wecep.Logradouro = brasilapi.Street
+		wecep.Bairro = brasilapi.Neighborhood
 		b, err := json.Marshal(wecep)
 		if err == nil {
 			chResult <- Result{Body: b}
