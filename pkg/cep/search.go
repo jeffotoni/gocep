@@ -2,6 +2,7 @@ package cep
 
 import (
 	"context"
+	"encoding/json"
 	"runtime"
 	"time"
 
@@ -18,10 +19,11 @@ type Result struct {
 
 // Search busca o cep informado de forma concorrente nas APIs definidas em [pkg/models/endpoints.go],
 // retornando a primeira resposta(string em formato JSON) e um erro.
-func Search(cep string) (string, error) {
-	jsonCep := gocache.Get(cep)
+func Search(cep string) (jsonCep string, wecep models.WeCep, err error) {
+	jsonCep = gocache.Get(cep)
 	if len(jsonCep) > 0 {
-		return jsonCep, nil
+		json.Unmarshal([]byte(jsonCep), &wecep)
+		return
 	}
 
 	var chResult = make(chan Result, len(models.Endpoints))
@@ -48,10 +50,24 @@ func Search(cep string) (string, error) {
 	select {
 	case result := <-chResult:
 		gocache.SetTTL(cep, string(result.Body), time.Duration(config.TTlCache)*time.Second)
-		return string(result.Body), nil
+		jsonCep = string(result.Body)
+		json.Unmarshal([]byte(jsonCep), &wecep)
+		return
 
 	case <-time.After(time.Duration(config.TimeOutSearchCep) * time.Second):
 		cancel()
 	}
-	return config.JsonDefault, nil
+	jsonCep = config.JsonDefault
+	json.Unmarshal([]byte(jsonCep), &wecep)
+	return
+}
+
+func ValidCep(wecep models.WeCep) bool {
+	if len(wecep.Cidade) == 0 &&
+		len(wecep.Uf) == 0 &&
+		len(wecep.Logradouro) == 0 &&
+		len(wecep.Bairro) == 0 {
+		return false
+	}
+	return true
 }

@@ -26,13 +26,17 @@ func TestSearch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Search(tt.args.cep)
+			got, wecep, err := Search(tt.args.cep)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Search() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want && got != tt.want2 {
 				t.Errorf("Search() = %v, want %v", got, tt.want)
+			}
+
+			if !ValidCep(wecep) {
+				t.Log("validado wecep")
 			}
 		})
 	}

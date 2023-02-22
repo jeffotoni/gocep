@@ -157,10 +157,10 @@ import (
 )
 
 func main() {
-
-	result, err := cep.Search("6233903")
+	result, wecep, err := cep.Search("6233903")
 	fmt.Println(err)
-	fmt.Println(result)
+	fmt.Println(result) // json
+	fmt.Println(wecep) // object WeCep
 }
 
 ```
@@ -188,13 +188,18 @@ func main() {
 			return
 		}
 
-		result, err := cep.Search(cepstr)
+		result, wecep, err := cep.Search(cepstr)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result))
 			return
 		}
 
+		if !cep.ValidCep(wecep) {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(result))
 	})

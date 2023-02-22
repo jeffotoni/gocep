@@ -37,10 +37,15 @@ func HandlerCep(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := cep.Search(cepstr)
+	result, wecep, err := cep.Search(cepstr)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if !cep.ValidCep(wecep) {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 
