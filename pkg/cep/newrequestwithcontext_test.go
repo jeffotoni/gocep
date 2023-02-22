@@ -2,12 +2,38 @@ package cep
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"testing"
 	"time"
 
 	"github.com/jeffotoni/gocep/config"
 )
 
+// Esse exemplo faz um requisição para a API do viacep
+func ExampleNewRequestWithContext() {
+	ctx, cancel := context.WithCancel(context.Background())
+	cep := "01001000"
+	source := "viacep"
+	method := http.MethodGet
+	endpoint := "https://viacep.com.br/ws/%s/json/"
+
+	chResult := make(chan Result)
+
+	go NewRequestWithContext(ctx, cancel, cep, source, method, endpoint, chResult)
+
+	var result string
+	select {
+	case got := <-chResult:
+		result = string(got.Body)
+	case <-time.After(time.Duration(15) * time.Second):
+		// tratar o erro, apenas a resposta está presente no chResult
+	}
+	fmt.Println(result)
+	// Output: {"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}
+}
+
+// go test -run ^TestNewRequestWithContext'$ -v
 func TestNewRequestWithContext(t *testing.T) {
 	type args struct {
 		cep      string
@@ -72,15 +98,15 @@ func TestNewRequestWithContext(t *testing.T) {
 			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
 		},
 		{name: "test_new_request_with_context_brasilapi_",
-		args: args{
-			cep:      "01001000",
-			source:   "brasilapi",
-			method:   "GET",
-			endpoint: "https://brasilapi.com.br/api/cep/v1/%s",
-			chResult: make(chan Result),
+			args: args{
+				cep:      "01001000",
+				source:   "brasilapi",
+				method:   "GET",
+				endpoint: "https://brasilapi.com.br/api/cep/v1/%s",
+				chResult: make(chan Result),
+			},
+			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
 		},
-		want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
-	},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
