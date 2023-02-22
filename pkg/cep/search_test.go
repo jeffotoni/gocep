@@ -1,8 +1,16 @@
 package cep
 
 import (
+	"fmt"
 	"testing"
 )
+
+// Esse exemplo passa um cep válido para a função Search.
+func ExampleSearch() {
+	s, _ := Search("08226024")
+	fmt.Println(s)
+	// Output: {"cidade":"São Paulo","uf":"SP","logradouro":"Rua Esperança","bairro":"Cidade Antônio Estevão de Carvalho"}
+}
 
 // go test -run ^TestSearch$ -v
 func TestSearch(t *testing.T) {

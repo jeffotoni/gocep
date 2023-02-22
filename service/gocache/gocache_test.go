@@ -8,6 +8,7 @@ import (
 	gcache "github.com/patrickmn/go-cache"
 )
 
+// go test -run ^TestRun'$ -v
 func TestRun(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -26,6 +27,7 @@ func TestRun(t *testing.T) {
 	}
 }
 
+// go test -run ^TestSetTTL'$ -v
 func TestSetTTL(t *testing.T) {
 	TestRun(t)
 	type args struct {
@@ -57,6 +59,7 @@ func TestSetTTL(t *testing.T) {
 	}
 }
 
+// go test -run ^TestGet'$ -v
 func TestGet(t *testing.T) {
 	TestRun(t)
 	TestSetTTL(t)
