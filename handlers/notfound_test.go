@@ -8,10 +8,6 @@ import (
 
 // go test -run ^TestNotFound'$ -v
 func TestNotFound(t *testing.T) {
-	type args struct {
-		method string
-		target string
-	}
 	tests := []struct {
 		name string
 		want int //statuscode
@@ -27,9 +23,8 @@ func TestNotFound(t *testing.T) {
 			NotFound(rr, req)
 
 			if rr.Code != tt.want {
-				t.Errorf("handler returned wrong status code: got %v want %v", rr.Code, tt.want)
+				t.Errorf("NotFound() handler returned wrong status code: got %v want %v", rr.Code, tt.want)
 			}
-
 		})
 	}
 }

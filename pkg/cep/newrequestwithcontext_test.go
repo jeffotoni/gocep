@@ -43,9 +43,10 @@ func TestNewRequestWithContext(t *testing.T) {
 		chResult chan Result
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		wantErr bool
 	}{
 		{name: "test_new_request_with_context_cdnapicep_",
 			args: args{
@@ -55,7 +56,8 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://cdn.apicep.com/file/apicep/%s.json",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé - lado ímpar","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé - lado ímpar","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_githubjeffotoni_",
 			args: args{
@@ -65,7 +67,8 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/%s",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_viacep_",
 			args: args{
@@ -75,7 +78,8 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://viacep.com.br/ws/%s/json/",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_postmon_",
 			args: args{
@@ -85,7 +89,8 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://api.postmon.com.br/v1/cep/%s",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_republicavirtual_",
 			args: args{
@@ -95,7 +100,8 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://republicavirtual.com.br/web_cep.php?cep=%s&formato=json",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"da Sé","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_brasilapi_",
 			args: args{
@@ -105,7 +111,19 @@ func TestNewRequestWithContext(t *testing.T) {
 				endpoint: "https://brasilapi.com.br/api/cep/v1/%s",
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			wantErr: false,
+		},
+		{name: "test_new_request_with_context_",
+			args: args{
+				cep:      "",
+				source:   "",
+				method:   "",
+				endpoint: "",
+				chResult: make(chan Result),
+			},
+			want:    ``,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -118,11 +136,41 @@ func TestNewRequestWithContext(t *testing.T) {
 
 			select {
 			case got := <-tt.args.chResult:
-				if string(got.Body) != tt.want {
+				if string(got.Body) != tt.want && !tt.wantErr {
 					t.Errorf("NewRequestWithContext() = %v, want %v", string(got.Body), tt.want)
 				}
 			case <-time.After(time.Duration(config.TimeOutSearchCep) * time.Second):
-				t.Errorf("NewRequestWithContext() = %v, want %v", "timeout", tt.want)
+				if !tt.wantErr {
+					t.Errorf("NewRequestWithContext() = %v, want %v", "timeout", tt.want)
+				}
+			}
+		})
+	}
+}
+
+// go test -run ^TestAddHyphen$ -v
+func TestAddHyphen(t *testing.T) {
+	tests := []struct {
+		name string
+		cep  string
+		want string
+	}{
+		{
+			name: "test_add_hyphen_",
+			cep:  "08226024",
+			want: "08226-024",
+		},
+		{
+			name: "test_add_hyphen_",
+			cep:  "0822",
+			want: "0822",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := addHyphen(tt.cep)
+			if got != tt.want {
+				t.Errorf("addHyphen() = %v, want %v", got, tt.want)
 			}
 		})
 	}

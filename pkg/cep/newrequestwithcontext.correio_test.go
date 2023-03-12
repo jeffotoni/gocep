@@ -42,8 +42,6 @@ func ExampleNewRequestWithContextCorreio() {
 // go test -run ^TestNewRequestWithContextCorreio$ -v
 func TestNewRequestWithContextCorreio(t *testing.T) {
 	type args struct {
-		ctx      context.Context
-		cancel   context.CancelFunc
 		cep      string
 		source   string
 		method   string
@@ -52,9 +50,10 @@ func TestNewRequestWithContextCorreio(t *testing.T) {
 		chResult chan Result
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		wantErr bool
 	}{
 		{name: "test_new_request_with_context_correio_",
 			args: args{
@@ -71,7 +70,8 @@ func TestNewRequestWithContextCorreio(t *testing.T) {
 			</x:Envelope>`,
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			want:    `{"cidade":"São Paulo","uf":"SP","logradouro":"Praça da Sé","bairro":"Sé"}`,
+			wantErr: false,
 		},
 		{name: "test_new_request_with_context_correio_",
 			args: args{
@@ -88,7 +88,20 @@ func TestNewRequestWithContextCorreio(t *testing.T) {
 			</x:Envelope>`,
 				chResult: make(chan Result),
 			},
-			want: `{"cidade":"","uf":"","logradouro":"","bairro":""}`,
+			want:    `{"cidade":"","uf":"","logradouro":"","bairro":""}`,
+			wantErr: false,
+		},
+		{name: "test_new_request_with_context_correio_",
+			args: args{
+				cep:      "",
+				source:   "",
+				method:   "",
+				endpoint: "\n",
+				payload:  "",
+				chResult: make(chan Result),
+			},
+			want:    ``,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -101,13 +114,14 @@ func TestNewRequestWithContextCorreio(t *testing.T) {
 
 			select {
 			case got := <-tt.args.chResult:
-				if string(got.Body) != tt.want {
-					t.Errorf("NewRequestWithContext() = %v, want %v", string(got.Body), tt.want)
+				if string(got.Body) != tt.want && !tt.wantErr {
+					t.Errorf("NewRequestWithContextCorreio() = %v, want %v", string(got.Body), tt.want)
 				}
 			case <-time.After(time.Duration(config.TimeOutSearchCep) * time.Second):
-				t.Errorf("NewRequestWithContext() = %v, want %v", "timeout", tt.want)
+				if !tt.wantErr {
+					t.Errorf("NewRequestWithContextCorreio() = %v, want %v", "timeout", tt.want)
+				}
 			}
-
 		})
 	}
 }

@@ -56,7 +56,6 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 			brasilapi(wecep, body, chResult, cancel)
 		}
 	}
-	return
 }
 
 func addHyphen(s string) string {
