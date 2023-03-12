@@ -25,6 +25,9 @@ func TestSearchCep(t *testing.T) {
 		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/0"}, 400, false},
 		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/08226-021"}, 400, false},
 		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/08226021"}, 200, false},
+		{"test_searchcep_", args{"POST", "application/json", nil, "/v1/cep/08226021"}, 405, false},
+		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/00000000"}, 204, false},
+		{"test_searchcep_", args{"GET", "application/json", nil, "/v1/cep/00000000/"}, 302, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -39,7 +42,7 @@ func TestSearchCep(t *testing.T) {
 			defer resp.Body.Close()
 
 			if !reflect.DeepEqual(resp.StatusCode, tt.want) {
-				t.Errorf("Call() out status = %v, want status %v", resp.StatusCode, tt.want)
+				t.Errorf("SearchCep() out status = %v, want status %v", resp.StatusCode, tt.want)
 				return
 			}
 			// assert.Equal(t, tt.want, resp.StatusCode)
