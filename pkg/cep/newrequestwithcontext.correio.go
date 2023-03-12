@@ -14,7 +14,6 @@ import (
 
 // NewRequestWithContextCorreio é responsável por fazer buscas de forma concorrente na API dos correios
 func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc, cep, source, method, endpoint, payload string, chResult chan<- Result) {
-	var err error
 	payload = fmt.Sprintf(payload, cep)
 	req, err := http.NewRequestWithContext(ctx, method, endpoint, bytes.NewReader([]byte(payload)))
 	if err != nil {
@@ -51,5 +50,4 @@ func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc
 			cancel()
 		}
 	}
-	return
 }
