@@ -26,7 +26,7 @@ func Run() *gcache.Cache {
 }
 
 func SetTTL(key, value string, ttl time.Duration) bool {
-	if len(key) < 0 || len(value) < 0 {
+	if len(key) == 0 || len(value) == 0 {
 		return false
 	}
 	g := Run()

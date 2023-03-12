@@ -17,6 +17,7 @@ func TestRun(t *testing.T) {
 	}{
 		{name: "test_run_", want: Run(), wantErr: false},
 		{name: "test_run_", want: gcache.New(24*time.Hour, 24*time.Hour), wantErr: true},
+		{name: "test_run_", want: new(gcache.Cache), wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -49,6 +50,33 @@ func TestSetTTL(t *testing.T) {
 			},
 			want: true,
 		},
+		{
+			name: "test_setTTL_",
+			args: args{
+				key:   ``,
+				value: `{"cidade":"São Paulo","uf":"SP","logradouro":"18 de Abril","bairro":"Cidade Antônio Estevão de Carvalho"}`,
+				ttl:   time.Duration(5) * time.Second,
+			},
+			want: false,
+		},
+		{
+			name: "test_setTTL_",
+			args: args{
+				key:   `08226021`,
+				value: ``,
+				ttl:   time.Duration(5) * time.Second,
+			},
+			want: false,
+		},
+		{
+			name: "test_setTTL_",
+			args: args{
+				key:   ``,
+				value: ``,
+				ttl:   time.Duration(5) * time.Second,
+			},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -77,6 +105,20 @@ func TestGet(t *testing.T) {
 				key: `08226021`,
 			},
 			want: `{"cidade":"São Paulo","uf":"SP","logradouro":"18 de Abril","bairro":"Cidade Antônio Estevão de Carvalho"}`,
+		},
+		{
+			name: "test_get_",
+			args: args{
+				key: ``,
+			},
+			want: ``,
+		},
+		{
+			name: "test_get_",
+			args: args{
+				key: `01001000`,
+			},
+			want: ``,
 		},
 	}
 	for _, tt := range tests {
