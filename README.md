@@ -33,6 +33,7 @@ Da uma conferida em alguns examplos aqui de como fazer chamadas do gocep em dive
  - go client
  - rust
  - C
+ - C++
 
 [exemplos](https://github.com/jeffotoni/gocep/tree/master/examples)
 
