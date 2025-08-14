@@ -1,0 +1,8 @@
+github.com/jeffotoni/gcolor v1.0.9 h1:Lr8kYTNSqOBYOQqkS3qgUZwnLdfAFbSLFr0QnQHdMEg=
+github.com/jeffotoni/gcolor v1.0.9/go.mod h1:ophnOt4KLQthzn5I0K/nT6s5LKqnkubPgIoV5Wiu0QI=
+github.com/jeffotoni/gconcat v0.0.12 h1:3l0OOudzBnPAM0Mac/tHgRO5naNp2WDH69FbDzctRAI=
+github.com/jeffotoni/gconcat v0.0.12/go.mod h1:aGMsLIjZO8qEYz2DyLeXLl4q/vq0T24ROwIjlxsQ1dE=
+github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
+github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
+github.com/rs/cors v1.8.3 h1:O+qNyWn7Z+F9M0ILBHgMVPuB1xTOucVd5gtaYyXBpRo=
+github.com/rs/cors v1.8.3/go.mod h1:XyqrcTp5zjWr1wsJ8PIRZssZ8b/WMcMf71DJnit4EMU=

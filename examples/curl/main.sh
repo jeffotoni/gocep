@@ -1,0 +1,1 @@
+curl -i -XGET 'http://localhost:8080/v1/cep/08226021'
