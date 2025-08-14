@@ -1,4 +1,4 @@
-name: Sync from jeffotoni/gocep
+name: Simple Sync from jeffotoni/gocep
 
 on:
   workflow_dispatch:
@@ -19,24 +19,13 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-      - name: Add public repo as remote and fetch
+      - name: Add upstream and merge
         run: |
           git remote add upstream https://github.com/jeffotoni/gocep.git
-          git fetch upstream
-
-      - name: Smart merge from public repo
-        run: |
-          if git show-ref --verify --quiet refs/remotes/upstream/master; then
-            echo "🔄 Merging from upstream/master..."
-            git merge upstream/master --allow-unrelated-histories -m "sync: merge from public master"
-          elif git show-ref --verify --quiet refs/remotes/upstream/main; then
-            echo "🔄 Merging from upstream/main..."
-            git merge upstream/main --allow-unrelated-histories -m "sync: merge from public main"
-          else
-            echo "❌ No main branch found in upstream!"
-            git branch -r
-            exit 1
-          fi
+          git fetch upstream master
+          
+          # Merge favorecendo sempre o upstream em casos de conflito
+          git merge upstream/master --allow-unrelated-histories --strategy-option=theirs -m "sync: merge from public master"
 
       - name: Push to private main
         run: |
