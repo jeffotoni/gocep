@@ -1,0 +1,31 @@
+name: Sync from Public Repo
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Executa 1x por dia (meia-noite UTC)
+  workflow_dispatch:      # Permite rodar manualmente via GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+      - name: Add public repo as remote and fetch
+        run: |
+          git remote add upstream https://github.com/jeffotoni/gocep.git
+          git fetch upstream
+
+      - name: Merge changes from public repo
+        run: |
+          git merge upstream/main --allow-unrelated-histories -m "Merge from public gocep"
+      
+      - name: Push changes to private repo
+        run: |
+          git push origin main
