@@ -1,18 +1,20 @@
-name: Sync from Public Repo
+name: Sync from jeffotoni/gocep
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # Executa 1x por dia (meia-noite UTC)
-  workflow_dispatch:      # Permite rodar manualmente via GitHub UI
+    - cron: '0 0 * * *'
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout private repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Configure Git
+      - name: Set Git config
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
@@ -22,10 +24,20 @@ jobs:
           git remote add upstream https://github.com/jeffotoni/gocep.git
           git fetch upstream
 
-      - name: Merge changes from public repo
+      - name: Smart merge from public repo
         run: |
-          git merge upstream/main --allow-unrelated-histories -m "Merge from public gocep"
-      
-      - name: Push changes to private repo
+          if git show-ref --verify --quiet refs/remotes/upstream/master; then
+            echo "🔄 Merging from upstream/master..."
+            git merge upstream/master --allow-unrelated-histories -m "sync: merge from public master"
+          elif git show-ref --verify --quiet refs/remotes/upstream/main; then
+            echo "🔄 Merging from upstream/main..."
+            git merge upstream/main --allow-unrelated-histories -m "sync: merge from public main"
+          else
+            echo "❌ No main branch found in upstream!"
+            git branch -r
+            exit 1
+          fi
+
+      - name: Push to private main
         run: |
           git push origin main
