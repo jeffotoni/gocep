@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout private repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -27,13 +27,14 @@ jobs:
       - name: Smart merge from public repo
         run: |
           if git show-ref --verify --quiet refs/remotes/upstream/master; then
-            echo "Merging from upstream/master..."
+            echo "🔄 Merging from upstream/master..."
             git merge upstream/master --allow-unrelated-histories -m "sync: merge from public master"
           elif git show-ref --verify --quiet refs/remotes/upstream/main; then
-            echo "Merging from upstream/main..."
+            echo "🔄 Merging from upstream/main..."
             git merge upstream/main --allow-unrelated-histories -m "sync: merge from public main"
           else
-            echo "No main branch found in upstream!"
+            echo "❌ No main branch found in upstream!"
+            git branch -r
             exit 1
           fi
 
