@@ -1,4 +1,4 @@
-name: Simple Sync from jeffotoni/gocep
+name: Sync from jeffotoni/gocep (with PAT)
 
 on:
   workflow_dispatch:
@@ -13,19 +13,45 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}  # Use seu Personal Access Token
 
       - name: Set Git config
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Add upstream and merge
+      - name: Add public repo as remote and fetch
         run: |
           git remote add upstream https://github.com/jeffotoni/gocep.git
-          git fetch upstream master
-          
-          # Merge favorecendo sempre o upstream em casos de conflito
-          git merge upstream/master --allow-unrelated-histories --strategy-option=theirs -m "sync: merge from public master"
+          git fetch upstream
+
+      - name: Merge from public repo with conflict resolution
+        run: |
+          if git show-ref --verify --quiet refs/remotes/upstream/master; then
+            echo "🔄 Merging from upstream/master..."
+            
+            if git merge upstream/master --allow-unrelated-histories -m "sync: merge from public master"; then
+              echo "✅ Merge successful without conflicts"
+            else
+              echo "⚠️ Merge conflicts detected, resolving automatically..."
+              
+              git status --porcelain | grep "^UU\|^AA\|^DD" | cut -c4- | while read file; do
+                echo "Resolving conflict in: $file"
+                
+                if [[ "$file" == "LICENSE" ]]; then
+                  echo "Keeping private repo LICENSE"
+                  git checkout --ours "$file"
+                else
+                  echo "Using upstream version for: $file"
+                  git checkout --theirs "$file"
+                fi
+                
+                git add "$file"
+              done
+              
+              git commit -m "sync: merge from public master (conflicts resolved automatically)"
+            fi
+          fi
 
       - name: Push to private main
         run: |
