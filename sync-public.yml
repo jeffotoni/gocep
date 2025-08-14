@@ -1,31 +1,28 @@
-name: Sync from jeffotoni/gocep
+name: Sync to public gocep
 
 on:
-  workflow_dispatch:      # Permite rodar manualmente
-  schedule:
-    - cron: '0 0 * * *'    # Executa diariamente (00:00 UTC)
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  sync:
+  sync-to-public:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout private repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set Git config
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-      - name: Add public repo as remote and fetch master
+      - name: Add public repo as remote
         run: |
-          git remote add upstream https://github.com/jeffotoni/gocep.git
-          git fetch upstream master
+          git remote add public https://${{ secrets.GITHUB_TOKEN }}@github.com/jeffotoni/gocep.git
 
-      - name: Merge from public/master into private/main
+      - name: Push to public master
         run: |
-          git merge upstream/master --allow-unrelated-histories -m "sync: merge from public master"
-
-      - name: Push to private main
-        run: |
-          git push origin main
+          git push public main:master --force-with-lease
