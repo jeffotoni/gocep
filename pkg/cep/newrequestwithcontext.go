@@ -23,7 +23,7 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		return
 	}
 
-	fmt.Println(endpoint)
+	// fmt.Println(endpoint)
 
 	response, err := httpClient.Do(req)
 	if err != nil {

@@ -25,4 +25,7 @@ var (
 
 	// ctx cancel search
 	CancelCTXSearch = 30 * time.Second
+
+	// cache
+	CACHE_ENABLE = true
 )
