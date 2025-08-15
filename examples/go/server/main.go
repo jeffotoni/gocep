@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/jeffotoni/gocep/pkg/cep"
+
 	"github.com/rs/cors"
 )
 

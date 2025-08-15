@@ -21,11 +21,13 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 	endpoint = fmt.Sprintf(endpoint, cep)
 	req, err := http.NewRequestWithContext(ctx, method, endpoint, nil)
 	if err != nil {
+		log.Println("Error NewRequestWithContext:", err)
 		return
 	}
 
-	response, err := http.DefaultClient.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
+		// log.Println("Error httpClient:", err)
 		return
 	}
 

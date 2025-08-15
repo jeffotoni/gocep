@@ -4,7 +4,7 @@
 GO111MODULE=on
 GOPROXY=direct
 GOSUMDB=off
-GOPRIVATE=github.com/jeffotoni/gocep
+GOPRIVATE=gocep
 
 build:
 	@echo "########## Compilando nossa API ... "
@@ -17,7 +17,7 @@ build:
 update:
 	@echo "########## Compilando nossa API ... "
 	@rm -f go.*
-	go mod init github.com/jeffotoni/gocep
+	go mod init gocep
 	go mod tidy
 	CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o gocep main.go
 	@echo "buid completo..."

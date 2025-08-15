@@ -29,8 +29,7 @@ func Search(cep string) (jsonCep string, wecep models.WeCep, err error) {
 	var chResult = make(chan Result, len(models.Endpoints))
 	runtime.GOMAXPROCS(config.NumCPU)
 
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
+	ctx, cancel := context.WithTimeout(context.Background(), config.CancelCTXSearch)
 	defer cancel()
 
 	for _, e := range models.Endpoints {

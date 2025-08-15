@@ -4,9 +4,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/jeffotoni/gcolor"
 	"github.com/jeffotoni/gocep/config"
 	handler "github.com/jeffotoni/gocep/handlers"
+
+	"github.com/jeffotoni/gcolor"
 	"github.com/rs/cors"
 )
 

@@ -1,7 +1,7 @@
 # gocep
-[![GoDoc](https://godoc.org/github.com/jeffotoni/gocep?status.svg)](https://godoc.org/github.com/jeffotoni/gocep) [![Github Release](https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases)](https://img.shields.io/github/v/release/jeffotoni/gocep) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/jeffotoni/gocep/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/jeffotoni/gocep/tree/master) [![Go Report](https://goreportcard.com/badge/github.com/jeffotoni/gocep)](https://goreportcard.com/badge/github.com/jeffotoni/gocep) [![License](https://img.shields.io/github/license/jeffotoni/gocep)](https://img.shields.io/github/license/jeffotoni/gocep) ![CircleCI](https://img.shields.io/circleci/build/github/jeffotoni/gocep/master) ![Coveralls](https://img.shields.io/coverallsCoverage/github/jeffotoni/gocep)
+[![GoDoc](https://godoc.org/gocep?status.svg)](https://godoc.org/gocep) [![Github Release](https://img.shields.io/github/v/release/jeffotoni/gocep?include_prereleases)](https://img.shields.io/github/v/release/jeffotoni/gocep) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/jeffotoni/github.com/jeffotoni/gocep/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/jeffotoni/github.com/jeffotoni/gocep/tree/master) [![Go Report](https://goreportcard.com/badge/gocep)](https://goreportcard.com/badge/gocep) [![License](https://img.shields.io/github/license/jeffotoni/gocep)](https://img.shields.io/github/license/jeffotoni/gocep) ![CircleCI](https://img.shields.io/circleci/build/github/jeffotoni/github.com/jeffotoni/gocep/master) ![Coveralls](https://img.shields.io/coverallsCoverage/github/jeffotoni/gocep)
 <!-- 
-[![Vulnerabilities](https://snyk.io/test/github/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep) -->
+[![Vulnerabilities](https://snyk.io/test/github/jeffotoni/github.com/jeffotoni/gocep/badge.svg)](https://snyk.io/test/github/jeffotoni/gocep) -->
 
 Um simples pacote para buscar ceps em bases públicas na internet utilizando *concorrência*.
 Atualizamos para buscar não somente de bases públicas como também busca do correios que é chamadas SOAPs e busca também de uma base que encontra-se no [ceps github](https://raw.githubusercontent.com/jeffotoni/api.cep/master/v1/cep/) em raw.
@@ -50,7 +50,7 @@ Caso queira utilizar ele como serviço, basta baixa-lo ou usar o docker para uti
 
 #### linux bash
 ```bash
-$ git clone https://github.com/jeffotoni/gocep
+$ git clone https://gocep
 $ cd gocep
 $ CGO_ENABLED=0 go build -ldflags="-s -w" 
 $ ./gocep

@@ -3,7 +3,6 @@ package cep
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -21,15 +20,8 @@ func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc
 	}
 
 	req.Header.Set("Content-type", "text/xml; charset=utf-8")
-	client := &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
-		},
-	}
 
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return
 	}
