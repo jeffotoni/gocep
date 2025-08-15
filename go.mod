@@ -1,6 +1,6 @@
 module github.com/jeffotoni/goce
 
-go 1.25rc2
+go 1.24
 
 require (
 	github.com/jeffotoni/gcolor v1.0.9
