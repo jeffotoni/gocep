@@ -13,7 +13,7 @@ Está configurado para buscar em:
  - Postmon cep 
  - Republicavirtual 
  - Correio 
- - github Raw Cep
+ - github Raw Cep (jeffotoni)
  - Cdn api cep
  - Brasil Api
 
