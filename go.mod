@@ -1,6 +1,6 @@
 module github.com/jeffotoni/gocep
 
-go 1.23.0
+go 1.23
 
 require (
 	github.com/jeffotoni/gcolor v1.0.9
