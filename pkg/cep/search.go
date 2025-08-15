@@ -3,6 +3,7 @@ package cep
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"runtime"
 	"time"
 
@@ -20,11 +21,12 @@ type Result struct {
 // Search busca o cep informado de forma concorrente nas APIs definidas em [pkg/models/endpoints.go],
 // retornando a primeira resposta(string em formato JSON) e um erro.
 func Search(cep string) (jsonCep string, wecep models.WeCep, err error) {
-	jsonCep = gocache.Get(cep)
-	if len(jsonCep) > 0 {
-		json.Unmarshal([]byte(jsonCep), &wecep)
-		return
-	}
+	fmt.Println("her...")
+	// jsonCep = gocache.Get(cep)
+	// if len(jsonCep) > 0 {
+	// 	json.Unmarshal([]byte(jsonCep), &wecep)
+	// 	return
+	// }
 
 	var chResult = make(chan Result, len(models.Endpoints))
 	runtime.GOMAXPROCS(config.NumCPU)
