@@ -9,6 +9,11 @@ jobs:
       - checkout
 
       - run:
+          name: "Force Git to use HTTPS instead of SSH"
+          command: |
+            git remote set-url origin https://github.com/jeffotoni/gocep.git
+
+      - run:
           name: "Install dependencies"
           command: |
             go get -t -v ./...
