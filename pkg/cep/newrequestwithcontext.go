@@ -52,7 +52,6 @@ func NewRequestWithContext(ctx context.Context, cancel context.CancelFunc, cep, 
 		case "republicavirtual":
 			republicavirtual(wecep, body, chResult, cancel)
 		case "cdnapicep":
-			println("cdnapicep")
 			cdnapicep(wecep, body, chResult, cancel)
 		case "brasilapi":
 			brasilapi(wecep, body, chResult, cancel)
@@ -76,8 +75,9 @@ func githubjeffotoni(wecep *models.WeCep, body []byte, chResult chan<- Result, c
 		wecep.Uf = githubjeff.Uf
 		wecep.Logradouro = githubjeff.Logradouro
 		wecep.Bairro = githubjeff.Bairro
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
@@ -92,8 +92,9 @@ func viacep(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel con
 		wecep.Uf = viacep.Uf
 		wecep.Logradouro = viacep.Logradouro
 		wecep.Bairro = viacep.Bairro
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
@@ -108,8 +109,9 @@ func postmon(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel co
 		wecep.Uf = postmon.Estado
 		wecep.Logradouro = postmon.Logradouro
 		wecep.Bairro = postmon.Bairro
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
@@ -124,8 +126,9 @@ func republicavirtual(wecep *models.WeCep, body []byte, chResult chan<- Result, 
 		wecep.Uf = repub.Uf
 		wecep.Logradouro = repub.Logradouro
 		wecep.Bairro = repub.Bairro
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
@@ -140,8 +143,9 @@ func cdnapicep(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel 
 		wecep.Uf = cdnapi.State
 		wecep.Logradouro = cdnapi.Address
 		wecep.Bairro = cdnapi.District
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
@@ -156,8 +160,9 @@ func brasilapi(wecep *models.WeCep, body []byte, chResult chan<- Result, cancel 
 		wecep.Uf = brasilapi.State
 		wecep.Logradouro = brasilapi.Street
 		wecep.Bairro = brasilapi.Neighborhood
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}

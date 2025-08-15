@@ -36,8 +36,9 @@ func NewRequestWithContextCorreio(ctx context.Context, cancel context.CancelFunc
 		wecep.Uf = c.Uf
 		wecep.Logradouro = c.End
 		wecep.Bairro = c.Bairro
+
 		b, err := json.Marshal(wecep)
-		if err == nil {
+		if err == nil && ValidCep(*wecep) {
 			chResult <- Result{Body: b}
 			cancel()
 		}
